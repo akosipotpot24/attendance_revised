@@ -7,6 +7,14 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="/2">Get Started</a>
+    <div class="row">
+        <div class="class col-lg-5">
+        <a href="/2">CRUD</a>
+    </div>
+    <div class="col-lg-5">
+        <a href="/3">Attendance</a>
+    </div>
+    </div>
+    
 </body>
 </html>

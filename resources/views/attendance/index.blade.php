@@ -47,7 +47,7 @@
 
 
     <p class="text-center mt-3">
-      <a href="register-crud">Register?</a>
+      <a href="register-attendace">Register?</a>
     </p>
   </div>
 
