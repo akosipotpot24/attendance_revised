@@ -18,7 +18,7 @@
         
         <!-- Add card-body for inner margins -->
         <div class="card-body">
-          <form>
+          <form action="/register_crud" method="POST">
             <div class="row mb-3">
               <div class="col-lg-4">
                 <label for="firstname" class="form-label">First Name:</label>
@@ -36,17 +36,47 @@
             </div>
 
             <div class="row mb-3">
-              <div class="col-lg-4">
-                <label for="age" class="form-label">Age:</label>
-                <input type="number" class="form-control" id="age" name="age">
+              <div class="col-lg-3">
+                <label for="age" class="form-label">School Role:</label>
+                <select name="school_role"  id="school_role" class="form-select" id="">
+                  <option value="" disabled selected>Select Role</option>
+                  <option value="faculty">Faculty</option>
+                  <option value="student">Student</option>
+                  <option value="non-teaching">Non - Teaching</option>
+                  
+                </select>
               </div>
-              <div class="col-lg-4">
-                <label for="course" class="form-label">Course:</label>
-                <input type="text" class="form-control" id="course" name="course">
+              <div class="col-lg-3">
+               <label for="library_branch" class="form-label">Library Location:</label>
+                  <select name="library_branch" id="library_branch" class="form-select" required>
+                    <option value="" disabled selected>Select a branch</option>
+                    <option value="pslrc">Pre-School</option>
+                    <option value="gslrc">Grade School</option>
+                    <option value="hslrc">High School</option>
+                    <option value="cllrc">College</option>
+                  </select>
+
               </div>
-              <div class="col-lg-4">
-                <label for="year" class="form-label">Year Level:</label>
-                <input type="text" class="form-control" id="year" name="year">
+               
+              <div class="col-lg-3">
+                <label for="year" class="form-label">Section:</label>
+                <select name="section" id="section" class="form-select" required>
+                    <option value="" disabled selected>Select Section</option>
+                    <option value="makabansa">Makabansa</option>
+                    <option value="makabayan">Makabayan</option>
+                    <option value="makadiyos">Makadiyos</option>
+                    <option value="makakalikasan">Makakalikasan</option>
+                  </select>
+              </div>
+              <div class="col-lg-3">
+                <label for="year" class="form-label">Student Number:</label>
+                <select name="student_number" id="student_number" class="form-select" required>
+                    <option value="" disabled selected>Select a branch</option>
+                    <option value="pslrc">Pre-School</option>
+                    <option value="gslrc">Grade School</option>
+                    <option value="hslrc">High School</option>
+                    <option value="cllrc">College</option>
+                  </select>
               </div>
             </div>
 
