@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CrudController;
+
 
 Route::get('/', function () {
     return view('welcom3');
@@ -10,6 +12,11 @@ Route::get('/', function () {
 Route::get('/2', function () {
     return view('crud/index');
 });
+
+Route::get('/userRegister', function () {
+    return view('crud/userRegister');
+});
+
 
 
 Route::get('/3', function () {
@@ -21,3 +28,14 @@ Route::get('/register-attendance', function () {
 Route::get('/register-crud', function () {
     return view('crud/register');
 });
+
+
+Route::post('/login',[CrudController::class, 'login']);
+Route::delete('/logout',[CrudController::class, 'logout']);
+Route::post('/userRegister',[CrudController::class, 'userRegister']);
+
+Route::post('/register',[CrudController::class, 'register']);
+Route::get('/viewStudents',[CrudController::class, 'viewstudents']);
+Route::get('/crud/edit/{student_number}', [CrudController::class, 'edit']);
+Route::put('/crud/update/{student_number}', [CrudController::class, 'update']);
+Route::delete('/crud/delete/{student_number}', [CrudController::class, 'destroy']);

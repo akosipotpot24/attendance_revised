@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('school_role');
             $table->string('library_branch');
             $table->string('section');
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
     }

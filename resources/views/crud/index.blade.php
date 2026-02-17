@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Attendance</title>
+  <title>crud</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
@@ -30,15 +30,32 @@
 <body>
   <div class="login-container">
     <h3 class="text-center mb-4">Login</h3>
-    <form>
+       @if (session()->has('success'))
+                        <div class="container container--narrow">
+                          <div class="alert alert-success text-center">
+                            {{ session('success') }}
+                          </div>
+                        </div>
+                        @endif
+
+
+    <form action="/login" method="POST">
+        @csrf
       <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email">
+        <label for="username" class="form-label">Username</label>
+        <input type="username" class="form-control" id="username" name="username" placeholder="Enter username">
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Enter password">
+        <input type="password" name="password" class="form-control" id="password" placeholder="Enter password">
       </div>
+      @if (session()->has('failed'))
+                        <div class="container container--narrow">
+                        <div class="alert alert-danger text-center">
+                          {{ session('failed') }}
+                        </div>
+                        </div>
+                        @endif
       <button type="submit" class="btn btn-dark">Login</button>
     </form>
     <!-- <p class="text-center mt-3">
@@ -47,7 +64,7 @@
 
 
     <p class="text-center mt-3">
-      <a href="register-crud">Register?</a>
+      <a href="userRegister">Register?</a>
     </p>
   </div>
 
