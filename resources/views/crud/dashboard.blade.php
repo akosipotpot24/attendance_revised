@@ -85,7 +85,7 @@
                         <td>{{ $student->school_role }}</td>
                         <td>{{ $student->library_branch }}</td>
                         <td>{{ $student->section }}</td>
-                        <td>
+                        <td class="text-center">
                             <a href="/crud/edit/{{ $student->student_number }}" class="btn">
                                 <img src="/storage/avatars/{{ $student->avatar ?? 'default.png' }}"
                                 class="rounded-circle img-thumbnail"
@@ -97,7 +97,8 @@
                             </td>
 
 
-                        <td class="d-flex gap-2">
+                        <td class="text-center">
+                            <div class="d-inline-flex gap-2">
                             <a href="/crud/edit/{{ $student->student_number }}" class="btn btn-sm btn-warning">
                                 <i class="bi bi-pencil-fill"></i>
                             </a>
@@ -108,7 +109,9 @@
                                 <button class="btn btn-sm btn-danger">
                                     <i class="bi bi-trash"></i>
                                 </button>
+                              
                             </form>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
