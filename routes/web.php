@@ -22,12 +22,19 @@ Route::get('/userRegister', function () {
 Route::get('/3', function () {
     return view('attendance/index');
 });
+Route::get('/scan', function () {
+    return view('attendance/attendance');
+});
 Route::get('/register-attendance', function () {
     return view('attendance/register');
 });
 Route::get('/register-crud', function () {
     return view('crud/register');
 });
+
+
+Route::get('/scan/{student_number}', [CrudController::class, 'scan']);
+
 
 
 Route::post('/login',[CrudController::class, 'login']);

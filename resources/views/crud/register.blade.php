@@ -14,7 +14,9 @@
   <div class="container mt-5">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">REGISTER</div>
+        <div class="card-header">REGISTER 
+           <a href="/viewStudents" class="btn btn-danger float-end">BACK</a>
+        </div>
 
         <!-- Add card-body for inner margins -->
         <div class="card-body">

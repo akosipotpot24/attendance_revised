@@ -13,6 +13,22 @@ use Intervention\Image\ImageManager;
 class CrudController extends Controller
 {
     //
+    public function scan($student_number)
+{
+    $student =Student::where('student_number', $student_number)->first();
+
+    if ($student) {
+        return response()->json([
+            'success' => true,
+            'name' => $student->firstname . ' ' . $student->lastname,
+            'section' => $student->section
+        ]);
+    }
+
+    return response()->json([
+        'success' => false
+    ]);
+}
     public function destroy($student_number){
         Student::where('student_number', $student_number)->delete();
         return redirect('/viewStudents')->with('success', 'Student deleted successfully!');
