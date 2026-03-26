@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Student;
+use App\Models\Attendance;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -18,13 +19,29 @@ class CrudController extends Controller
     $student =Student::where('student_number', $student_number)->first();
 
     if ($student) {
+            Attendance::create([
+            'student_number'=> $student->student_number,
+            'student_name'=> $student->firstname . ' '.$student->middlename.' '. $student->lastname,
+            'library_location'=> $student->library_branch,
+            'grade_level'=> $student->section,
+            'attendance_date'=> now(),
+            'status'=> 'present'
+            ]);
+
         return response()->json([
             'success' => true,
-            'name' => $student->firstname . ' ' . $student->lastname,
-            'section' => $student->section,
-            'role' => $student->school_role,
-            'avatar' => $student->avatar
+            'student_number' => $student->student_number,
+            'fullname'       => $student->firstname . ' ' . $student->lastname,
+            'firstname'      => $student->firstname,
+            'middlename'     => $student->middlename,
+            'lastname'       => $student->lastname,
+            'section'        => $student->section,
+            'role'           => $student->school_role,
+            'avatar'         => $student->avatar
         ]);
+
+
+
     }
 
     return response()->json([

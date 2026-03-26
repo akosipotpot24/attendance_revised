@@ -90,7 +90,8 @@ input.addEventListener('keydown', function(e) {
                             height="150"
                             alt="Profile">
                     </div>
-                    <div>${data.name}</div>
+                    <div class="text-success">${data.student_number}</div>
+                    <div class="text-primary">${data.firstname} ${data.lastname}</div>
                        
                     `;
 
