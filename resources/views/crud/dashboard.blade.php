@@ -20,16 +20,16 @@
 
 
     <div class="bg-dark text-white p-3 vh-150" style="width:250px;">
-        <h4 class="text-center">Dashboard</h4>
+        <h4 class="text-center"> <strong> <h1>Dashboard</h1> </strong> </h4>
         <hr>
 
         <ul class="nav flex-column">
 
-            <li class="nav-item mb-2">
+            {{-- <li class="nav-item mb-2">
                 <a href="#" class="nav-link text-white">
                     <i class="bi bi-speedometer2"></i> Dashboard
                 </a>
-            </li>
+            </li> --}}
 
             <li class="nav-item mb-2">
                 <a href="/register-crud" class="nav-link text-white">
@@ -37,9 +37,15 @@
                 </a>
             </li>
 
-            <li class="nav-item mb-2">
+            {{-- <li class="nav-item mb-2">
                 <a href="#" class="nav-link text-white">
                     <i class="bi bi-book"></i> Library
+                </a>
+            </li> --}}
+
+            <li class="nav-item mb-2">
+                <a href="/scan" class="nav-link text-white">
+                    <i class="bi bi-upc-scan"></i> Scan
                 </a>
             </li>
 

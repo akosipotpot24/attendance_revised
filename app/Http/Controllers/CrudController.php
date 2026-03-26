@@ -21,7 +21,9 @@ class CrudController extends Controller
         return response()->json([
             'success' => true,
             'name' => $student->firstname . ' ' . $student->lastname,
-            'section' => $student->section
+            'section' => $student->section,
+            'role' => $student->school_role,
+            'avatar' => $student->avatar
         ]);
     }
 
@@ -103,7 +105,7 @@ class CrudController extends Controller
     public function register(Request $req){
         $values= $req->validate([
             'firstname' => 'required',
-            'middlename' => 'required',
+            'middlename' => '',
             'lastname' => 'required',
             'school_role' => 'required',
             'library_branch' => 'required',

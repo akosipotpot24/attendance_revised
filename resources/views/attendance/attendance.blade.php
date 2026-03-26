@@ -39,13 +39,15 @@
             font-size: 1.8rem;
             font-weight: bold;
         }
+
+        
     </style>
 </head>
 <body>
 
 <div class="card-box">
     <h4>Scan Your ID</h4>
-    <p class="text-muted">No form needed • Auto scan</p>
+    <p class="text-muted">PAKI SCAN BAGO AKO MAGALIT</p>
 
     <!-- NO FORM, just input -->
     <input type="text"
@@ -58,47 +60,65 @@
 </div>
 
 <script>
-    const input = document.getElementById('barcodeInput');
-    const nameDisplay = document.getElementById('studentName');
+const input = document.getElementById('barcodeInput');
+const nameDisplay = document.getElementById('studentName');
 
-    // use keypress instead of form submit
-    input.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
+input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
 
-            let value = input.value;
+        let value = input.value.trim();
 
-            if (value.trim() !== '') {
+        if (value !== '') {
 
-                fetch(`/scan/${value}`)
-                    .then(res => res.json())
-                    .then(data => {
+            fetch(`/scan/${value}`)
+            .then(response => response.json())
+            .then(data => {
 
-                        nameDisplay.classList.remove('d-none');
+                nameDisplay.classList.remove('d-none');
 
-                        if (data.success) {
-                            nameDisplay.classList.remove('text-danger');
-                            nameDisplay.classList.add('text-success');
+                if (data.success) {
 
-                            nameDisplay.innerHTML = `
-                                <div>${data.name}</div>
-                                <small class="text-muted">${data.section}</small>
-                            `;
-                        } else {
-                            nameDisplay.classList.remove('text-success');
-                            nameDisplay.classList.add('text-danger');
-                            nameDisplay.innerText = "Student not found";
-                        }
+                    nameDisplay.classList.remove('text-danger');
+                    nameDisplay.classList.add('text-success');
 
-                        // reset after scan
-                        setTimeout(() => {
-                            input.value = '';
-                            nameDisplay.classList.add('d-none');
-                        }, 500);
-                    });
-            }
+                    nameDisplay.innerHTML = `
+                    <div class="text-center mb-3">
+                        <img src="/storage/avatars/${data.avatar}"
+                            class="rounded-circle img-thumbnail"
+                            width="150"
+                            height="150"
+                            alt="Profile">
+                    </div>
+                    <div>${data.name}</div>
+                       
+                    `;
+
+                } else {
+
+                    nameDisplay.classList.remove('text-success');
+                    nameDisplay.classList.add('text-danger');
+                    nameDisplay.innerText = "Student not found";
+
+                }
+
+                // reset after scan
+                setTimeout(() => {
+                    input.value = '';
+                    nameDisplay.classList.add('d-none');
+                    input.focus();
+                }, 2000);
+
+            })
+            .catch(error => {
+                console.error("Scan error:", error);
+            });
+
         }
-    });
+
+    }
+
+});
 </script>
 
 </body>
