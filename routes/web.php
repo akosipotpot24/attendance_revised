@@ -5,7 +5,7 @@ use App\Http\Controllers\CrudController;
 
 
 Route::get('/', function () {
-    return view('welcom3');
+    return view('crud/index');
 });
 
 

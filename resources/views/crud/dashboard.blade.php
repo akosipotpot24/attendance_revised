@@ -10,47 +10,52 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <title>Dashboard</title>
-</head>
 
+    <style>
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+        }
+        .sidebar .nav-link {
+            transition: background 0.3s, color 0.3s;
+        }
+        .sidebar .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+            color: #f8f9fa;
+        }
+        /* Avatar styling */
+        .avatar-img {
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        /* Footer styling */
+        footer {
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
 
 <body class="d-flex flex-column min-vh-100">
 
-
 <div class="d-flex flex-grow-1">
 
-
-    <div class="bg-dark text-white p-3 vh-150" style="width:250px;">
-        <h4 class="text-center"> <strong> <h1>Dashboard</h1> </strong> </h4>
+    <!-- Sidebar -->
+    <div class="sidebar bg-dark text-white p-3 sticky-top">
+        <h3 class="text-center mb-3">Dashboard</h3>
         <hr>
-
         <ul class="nav flex-column">
-
-            {{-- <li class="nav-item mb-2">
-                <a href="#" class="nav-link text-white">
-                    <i class="bi bi-speedometer2"></i> Dashboard
-                </a>
-            </li> --}}
-
             <li class="nav-item mb-2">
                 <a href="/register-crud" class="nav-link text-white">
-                    <i class="bi bi-people"></i> NEW STUDENT
+                    <i class="bi bi-people"></i> New Student
                 </a>
             </li>
-
-            {{-- <li class="nav-item mb-2">
-                <a href="#" class="nav-link text-white">
-                    <i class="bi bi-book"></i> Library
-                </a>
-            </li> --}}
-
             <li class="nav-item mb-2">
                 <a href="/scan" class="nav-link text-white">
                     <i class="bi bi-upc-scan"></i> Scan
                 </a>
             </li>
-
             <hr>
-
             <li class="nav-item">
                 <form action="/logout" method="POST">
                     @csrf
@@ -60,16 +65,14 @@
                     </button>
                 </form>
             </li>
-
         </ul>
     </div>
 
-    <!-- ✅ MAIN CONTENT -->
+    <!-- Main Content -->
     <div class="flex-grow-1 p-4">
         <div class="container mt-3">
-
-            <table id="mytable" class="table table-bordered table-striped">
-                <thead>
+            <table id="mytable" class="table table-bordered table-striped table-hover align-middle">
+                <thead class="table-dark">
                     <tr>
                         <th>Student Number</th>
                         <th>First Name</th>
@@ -81,7 +84,6 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     @foreach ($students as $student)
                     <tr>
@@ -92,56 +94,49 @@
                         <td>{{ $student->library_branch }}</td>
                         <td>{{ $student->section }}</td>
                         <td class="text-center">
-                            <a href="/crud/edit/{{ $student->student_number }}" class="btn">
+                            <a href="/crud/edit/{{ $student->student_number }}">
                                 <img src="/storage/avatars/{{ $student->avatar ?? 'default.png' }}"
-                                class="rounded-circle img-thumbnail"
-                                width="60"
-                                height="60"
-                                alt="Profile">
+                                     class="rounded-circle img-thumbnail avatar-img"
+                                     width="60" height="60" alt="Profile">
                             </a>
-
-                            </td>
-
-
+                        </td>
                         <td class="text-center">
                             <div class="d-inline-flex gap-2">
-                            <a href="/crud/edit/{{ $student->student_number }}" class="btn btn-sm btn-warning">
-                                <i class="bi bi-pencil-fill"></i>
-                            </a>
-
-                            <form action="/crud/delete/{{ $student->student_number }}" method="POST" onsubmit="return confirm('Delete this student?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                              
-                            </form>
+                                <a href="/crud/edit/{{ $student->student_number }}" class="btn btn-sm btn-warning">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                <form action="/crud/delete/{{ $student->student_number }}" method="POST" onsubmit="return confirm('Delete this student?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
-
             </table>
-
         </div>
     </div>
-
 </div>
 
-<!-- ✅ FOOTER (ALWAYS AT BOTTOM) -->
+<!-- Footer -->
 <footer class="text-center py-3 mt-auto">
     &copy; 2024 Attendance System. All rights reserved.
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/2.3.7/js/dataTables.min.js"></script>
-
 <script>
 $(document).ready(function () {
     $('#mytable').DataTable({
-        pageLength: 10
+        pageLength: 10,
+        responsive: true,
+        language: {
+            searchPlaceholder: "Search students..."
+        }
     });
 });
 </script>

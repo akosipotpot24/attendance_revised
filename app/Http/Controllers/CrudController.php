@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Student;
 use App\Models\Attendance;
+use App\Events\StudentUpdated;
+use App\Listeners\ActivityLog;
+
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -13,6 +16,7 @@ use Intervention\Image\ImageManager;
 
 class CrudController extends Controller
 {
+    
     //
     public function scan($student_number)
 {
@@ -78,7 +82,12 @@ class CrudController extends Controller
             Storage::disk('public')->delete('avatars/' . $oldavatar);
         }
     }
+        
         Student::where('student_number', $student_number)->update($values);
+        $student = Student::where('student_number', $student_number)->first();
+
+            event(new StudentUpdated($student, auth()->user()));
+
         return redirect('/crud/edit/' . $student_number)->with('success', 'Student updated successfully!');
     }
 
