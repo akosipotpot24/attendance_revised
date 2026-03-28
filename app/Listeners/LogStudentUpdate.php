@@ -24,8 +24,8 @@ class LogStudentUpdate
     public function handle(StudentUpdated $event): void
     {
         ActivityLog::create([
-            'user_id' => $event->user->id,
-            'action'  => 'Updated student record',
+            'user_id' =>  $event->user->id,
+            'action'  =>  $event->user->fullname.' Updated student record '.$event->student->firstname.' '.$event->student->middlename.' '.$event->student->lastname,
             'details' => 'Student: ' . $event->student->student_number,
         ]);
 

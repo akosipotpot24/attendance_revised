@@ -85,8 +85,7 @@ class CrudController extends Controller
         
         Student::where('student_number', $student_number)->update($values);
         $student = Student::where('student_number', $student_number)->first();
-
-            event(new StudentUpdated($student, auth()->user()));
+        event(new StudentUpdated($student, auth()->user()));
 
         return redirect('/crud/edit/' . $student_number)->with('success', 'Student updated successfully!');
     }
