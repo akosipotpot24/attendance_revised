@@ -80,46 +80,19 @@
             <table id="mytable" class="table table-bordered table-striped table-hover align-middle">
                 <thead class="table-dark">
                     <tr>
-                        <th>Student Number</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>School Role</th>
-                        <th>Library Branch</th>
-                        <th>Section</th>
-                        <th>Avatar</th>
-                        <th>Action</th>
+                        <th>USER ID</th>
+                        <th>ACTION</th>
+                        <th>DETAILS</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($students as $student)
+                    @foreach ($records as $record)
                     <tr>
-                        <td>{{ $student->student_number }}</td>
-                        <td>{{ $student->firstname }}</td>
-                        <td>{{ $student->lastname }}</td>
-                        <td>{{ $student->school_role }}</td>
-                        <td>{{ $student->library_branch }}</td>
-                        <td>{{ $student->section }}</td>
-                        <td class="text-center">
-                            <a href="/crud/edit/{{ $student->student_number }}">
-                                <img src="/storage/avatars/{{ $student->avatar ?? 'default.png' }}"
-                                     class="rounded-circle img-thumbnail avatar-img"
-                                     width="60" height="60" alt="Profile">
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <div class="d-inline-flex gap-2">
-                                <a href="/crud/edit/{{ $student->student_number }}" class="btn btn-sm btn-warning">
-                                    <i class="bi bi-pencil-fill"></i>
-                                </a>
-                                <form action="/crud/delete/{{ $student->student_number }}" method="POST" onsubmit="return confirm('Delete this student?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+                        <td>{{ $record->user_id }}</td>
+                        <td>{{ $record->action }}</td>
+                        <td>{{ $record->details }}</td>
+                        
                     </tr>
                     @endforeach
                 </tbody>

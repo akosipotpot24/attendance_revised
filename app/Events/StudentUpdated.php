@@ -22,12 +22,14 @@ class StudentUpdated
      */
 
        public $student;
-    public $user;
+       public $user;
+       public $changes;
 
-    public function __construct($student, $user)
+    public function __construct($student, $user, $changes)
     {
               $this->student = $student;
-        $this->user = $user;
+              $this->user = $user;
+              $this->changes = $changes;
 
     }
 

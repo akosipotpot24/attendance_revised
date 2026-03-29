@@ -18,7 +18,6 @@ Route::get('/userRegister', function () {
 });
 
 
-
 Route::get('/3', function () {
     return view('attendance/index');
 });
@@ -40,6 +39,8 @@ Route::get('/scan/{student_number}', [CrudController::class, 'scan']);
 Route::post('/login',[CrudController::class, 'login']);
 Route::delete('/logout',[CrudController::class, 'logout']);
 Route::post('/userRegister',[CrudController::class, 'userRegister']);
+
+Route::get('/records',[CrudController::class, 'records']);
 
 Route::post('/register',[CrudController::class, 'register']);
 Route::get('/viewStudents',[CrudController::class, 'viewstudents']);

@@ -23,10 +23,17 @@ class LogStudentUpdate
      */
     public function handle(StudentUpdated $event): void
     {
+
+    $changeDetails = '';
+
+    foreach ($event->changes as $field => $values) {
+        $changeDetails .= $field . ': ' . $values['old'] . ' → ' . $values['new'] . ', ';
+    }
         ActivityLog::create([
             'user_id' =>  $event->user->id,
             'action'  =>  $event->user->fullname.' Updated student record '.$event->student->firstname.' '.$event->student->middlename.' '.$event->student->lastname,
-            'details' => 'Student: ' . $event->student->student_number,
+            'details' => 'Student: ' . $event->student->student_number .
+                     ' | Changes: ' . $changeDetails,
         ]);
 
     }

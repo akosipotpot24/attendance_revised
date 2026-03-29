@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Student;
 use App\Models\Attendance;
 use App\Events\StudentUpdated;
-use App\Listeners\ActivityLog;
+use App\Models\ActivityLog;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -83,9 +83,25 @@ class CrudController extends Controller
         }
     }
         
-        Student::where('student_number', $student_number)->update($values);
+        // Student::where('student_number', $student_number)->update($values);
         $student = Student::where('student_number', $student_number)->first();
-        event(new StudentUpdated($student, auth()->user()));
+            
+        $original = $student->getOriginal();
+
+        $student->update($values);
+
+        $changes = [];
+
+        foreach ($values as $field => $newValue) {
+            if (isset($original[$field]) && $original[$field] != $newValue) {
+                $changes[$field] = [
+                    'old' => $original[$field],
+                    'new' => $newValue
+                ];
+            }
+        }
+
+        event(new StudentUpdated($student, auth()->user() ,$changes));
 
         return redirect('/crud/edit/' . $student_number)->with('success', 'Student updated successfully!');
     }
@@ -148,6 +164,10 @@ class CrudController extends Controller
     public function viewstudents(){
        $students = Student::all();
         return view('crud/dashboard' ,compact('students'));
+    }
+    public function records(){
+       $records = ActivityLog::all();
+        return view('crud/AuditTrails' ,compact('records'));
     }
 
     public function edit($students){
