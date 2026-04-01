@@ -9,7 +9,7 @@ class AppServiceProvider extends ServiceProvider
 
         protected $listen = [
             \App\Events\StudentUpdated::class => [
-                \App\Listeners\LogStudentUpdate::class,
+            \App\Listeners\LogStudentUpdate::class,
             ],
         ];
 

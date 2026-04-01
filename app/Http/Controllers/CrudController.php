@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Student;
-use App\Models\Attendance;
 use App\Events\StudentUpdated;
 use App\Models\ActivityLog;
-
+use App\Models\Attendance;
+use App\Models\AuditTrail;
+use App\Models\Student;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -123,6 +123,8 @@ class CrudController extends Controller
 
         $req->session()->regenerate();
         return redirect('/viewStudents');
+
+       
     }
     else{
         return back()->with(['failed' => 'Invalid username or password']);
