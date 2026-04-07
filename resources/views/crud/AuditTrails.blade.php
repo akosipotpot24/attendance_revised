@@ -46,6 +46,9 @@
         <hr>
         <ul class="nav flex-column">
             <li class="nav-item mb-2">
+                <a href="/viewStudents" class="nav-link text-white">Students</a>
+            </li>
+            <li class="nav-item mb-2">
                 <a href="/register-crud" class="nav-link text-white">
                     <i class="bi bi-people"></i> New Student
                 </a>
@@ -60,7 +63,6 @@
                     <i class="bi bi-clock"></i> Audit Trails
                 </a>
             </li>
-            
             <hr>
             <li class="nav-item">
                 <form action="/logout" method="POST">
@@ -76,29 +78,65 @@
 
     <!-- Main Content -->
     <div class="flex-grow-1 p-4">
-        <div class="container mt-3">
-            <table id="mytable" class="table table-bordered table-striped table-hover align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>USER ID</th>
-                        <th>ACTION</th>
-                        <th>DETAILS</th>
-                       
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($records as $record)
-                    <tr>
-                        <td>{{ $record->user_id }}</td>
-                        <td>{{ $record->action }}</td>
-                        <td>{{ $record->details }}</td>
-                        
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+
+        <!-- FIRST TABLE -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Login History</h4>
+            </div>
+            <div class="card-body">
+                <table id="table1" class="table table-bordered table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>User</th>
+                            <th>Action</th>
+                            <th>Module</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($auditTrails as $auditTrail)
+                        <tr>
+                            <td>{{ $auditTrail->user }}</td>
+                            <td>{{ $auditTrail->action }}</td>
+                            <td>{{ $auditTrail->module }}</td>
+                            <td>{{ $auditTrail->description }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+        <!-- SECOND TABLE -->
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Audit Trails</h4>
+            </div>
+            <div class="card-body">
+                <table id="table2" class="table table-bordered table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>ACTION</th>
+                            <th>DETAILS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($records as $record)
+                        <tr>
+                            <td>{{ $record->user_id }}</td>
+                            <td>{{ $record->action }}</td>
+                            <td>{{ $record->details }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
+
 </div>
 
 <!-- Footer -->
@@ -110,11 +148,11 @@
 <script src="https://cdn.datatables.net/2.3.7/js/dataTables.min.js"></script>
 <script>
 $(document).ready(function () {
-    $('#mytable').DataTable({
+    $('#table1, #table2').DataTable({
         pageLength: 10,
         responsive: true,
         language: {
-            searchPlaceholder: "Search students..."
+            searchPlaceholder: "Search..."
         }
     });
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AuditTrails;
 use App\Events\StudentUpdated;
 use App\Models\ActivityLog;
 use App\Models\Attendance;
@@ -84,12 +85,9 @@ class CrudController extends Controller
     }
         
         // Student::where('student_number', $student_number)->update($values);
-        $student = Student::where('student_number', $student_number)->first();
-            
+        $student = Student::where('student_number', $student_number)->first();  
         $original = $student->getOriginal();
-
         $student->update($values);
-
         $changes = [];
 
         foreach ($values as $field => $newValue) {
@@ -107,6 +105,12 @@ class CrudController extends Controller
     }
 
      public function logout(){
+        event(new AuditTrails(
+            auth()->user()->id,
+            'User has attempted to log out with username: '.auth()->user()->username,
+            'authentication: Logged out successfully',
+            'User logged out'
+        ));
         auth()->logout();
         return redirect('/2')->with('logout', 'You are Logged Out');
     }
@@ -122,11 +126,21 @@ class CrudController extends Controller
     ])){
 
         $req->session()->regenerate();
+        event(new AuditTrails(
+            auth()->user()->id,
+            'User( '.auth()->user()->fullname.' ) attempt logged in',
+            'authentication: Successfully logged in',
+            'User logged in'
+        ));
         return redirect('/viewStudents');
-
-       
     }
     else{
+        event(new AuditTrails(
+            $values['username'],
+            'User has attempted to log in with username: '.$values['username'],
+            'authentication: Failed login attempt',
+            'User logged in'
+        ));
         return back()->with(['failed' => 'Invalid username or password']);
         }
     }
@@ -169,7 +183,8 @@ class CrudController extends Controller
     }
     public function records(){
        $records = ActivityLog::all();
-        return view('crud/AuditTrails' ,compact('records'));
+       $auditTrails = AuditTrail::all();
+        return view('crud/AuditTrails' ,compact('records','auditTrails'));
     }
 
     public function edit($students){

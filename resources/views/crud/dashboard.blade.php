@@ -42,9 +42,14 @@
 
     <!-- Sidebar -->
     <div class="sidebar bg-dark text-white p-3 sticky-top">
-        <h3 class="text-center mb-3">Dashboard</h3>
+        <h3 class="text-center mb-3">Dashboard </h3>
         <hr>
         <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+               <a href="/viewStudents" class="nav-link text-white">Students</a>
+            </li>
+
+
             <li class="nav-item mb-2">
                 <a href="/register-crud" class="nav-link text-white">
                     <i class="bi bi-people"></i> New Student
