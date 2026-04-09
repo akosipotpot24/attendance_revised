@@ -21,38 +21,54 @@ class CrudController extends Controller
     //
     public function scan($student_number)
 {
-    $student =Student::where('student_number', $student_number)->first();
+    $student = Student::where('student_number', $student_number)->first();
 
     if ($student) {
-            Attendance::create([
-            'student_number'=> $student->student_number,
-            'student_name'=> $student->firstname . ' '.$student->middlename.' '. $student->lastname,
-            'library_location'=> $student->library_branch,
-            'grade_level'=> $student->section,
-            'attendance_date'=> now(),
-            'status'=> 'present'
-            ]);
+        // Get today's date
+        $today = now()->toDateString();
+
+        // Get the latest attendance record for today
+        $lastAttendance = Attendance::where('student_number', $student_number)
+            ->whereDate('attendance_date', $today)
+            ->orderBy('attendance_date', 'desc')
+            ->first();
+
+        // Determine punch type
+        $punchType = 'in'; // default to in
+        if ($lastAttendance && $lastAttendance->status === 'in') {
+            $punchType = 'out';
+        }
+
+        // Create attendance record
+        Attendance::create([
+            'student_number' => $student->student_number,
+            'student_name' => $student->firstname . ' ' . $student->middlename . ' ' . $student->lastname,
+            'library_location' => $student->library_branch,
+            'grade_level' => $student->section,
+            'attendance_date' => now(),
+            'status' => $punchType
+        ]);
 
         return response()->json([
             'success' => true,
+            'punch_type' => $punchType,
             'student_number' => $student->student_number,
-            'fullname'       => $student->firstname . ' ' . $student->lastname,
-            'firstname'      => $student->firstname,
-            'middlename'     => $student->middlename,
-            'lastname'       => $student->lastname,
-            'section'        => $student->section,
-            'role'           => $student->school_role,
-            'avatar'         => $student->avatar
+            'fullname' => $student->firstname . ' ' . $student->lastname,
+            'firstname' => $student->firstname,
+            'middlename' => $student->middlename,
+            'lastname' => $student->lastname,
+            'section' => $student->section,
+            'role' => $student->school_role,
+            'avatar' => $student->avatar
         ]);
-
-
-
     }
 
     return response()->json([
         'success' => false
     ]);
 }
+
+  
     public function destroy($student_number){
         Student::where('student_number', $student_number)->delete();
         return redirect('/viewStudents')->with('success', 'Student deleted successfully!');

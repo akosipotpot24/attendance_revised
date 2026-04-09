@@ -43,6 +43,8 @@
 
     <!-- Main Content -->
     <div class="flex-grow-1 p-4">
+        <div id="loader">
+        </div> 
         <div class="container mt-3">
             <table id="mytable" class="table table-bordered table-striped table-hover align-middle">
                 <thead class="table-dark">

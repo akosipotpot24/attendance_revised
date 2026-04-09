@@ -100,9 +100,8 @@
 </head>
    
 <body>
-<div id="loader">
- 
- </div> 
+ <div id="loader">
+        </div> 
  <div id="content" style="display:none;">
 
 {{-- <div class="spinner-wrapper">
