@@ -16,6 +16,7 @@ class Student extends Model
     'library_branch',
     'section',
     'student_number',
+    'avatar'
 ];
 
 protected function avatar(): Attribute{

@@ -24,22 +24,22 @@ class CrudController extends Controller
     $student = Student::where('student_number', $student_number)->first();
 
     if ($student) {
-        // Get today's date
+      
         $today = now()->toDateString();
 
-        // Get the latest attendance record for today
+      
         $lastAttendance = Attendance::where('student_number', $student_number)
             ->whereDate('attendance_date', $today)
             ->orderBy('attendance_date', 'desc')
             ->first();
 
-        // Determine punch type
-        $punchType = 'in'; // default to in
+        
+        $punchType = 'in'; 
         if ($lastAttendance && $lastAttendance->status === 'in') {
             $punchType = 'out';
         }
 
-        // Create attendance record
+        
         Attendance::create([
             'student_number' => $student->student_number,
             'student_name' => $student->firstname . ' ' . $student->middlename . ' ' . $student->lastname,
