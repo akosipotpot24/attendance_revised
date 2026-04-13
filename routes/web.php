@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudController;
+use App\Http\Controllers\SectionController;
+use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
@@ -47,3 +48,12 @@ Route::get('/viewStudents',[CrudController::class, 'viewstudents']);
 Route::get('/crud/edit/{student_number}', [CrudController::class, 'edit']);
 Route::put('/crud/update/{student_number}', [CrudController::class, 'update']);
 Route::delete('/crud/delete/{student_number}', [CrudController::class, 'destroy']);
+
+
+// section
+Route::get('/sections', [SectionController::class, 'viewSections']);
+Route::get('/sections/create', [SectionController::class, 'createSection']);
+Route::post('/sections', [SectionController::class, 'storeSection']);
+Route::get('/sections/{id}/edit', [SectionController::class, 'editSection']);
+Route::put('/sections/{id}', [SectionController::class, 'updateSection']);
+Route::delete('/sections/{id}', [SectionController::class, 'destroySection']);

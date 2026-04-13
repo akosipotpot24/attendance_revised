@@ -36,6 +36,43 @@
                 height: 50px;
                 width: 50px;
             }
+            #loader-wrapper {
+    position: absolute;
+    inset: 0; /* shorthand for top/left/right/bottom */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(255,255,255,0.7);
+    z-index: 10;
+}
+
+/* Spinner */
+#loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+/* FIXED animation (NO translate!) */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Fade in table */
+.fade-in{
+    animation: fadeIn .5s forwards;
+}
+
+@keyframes fadeIn{
+    from { opacity:0; }
+    to { opacity:1; }
+}
     
     
    
@@ -43,9 +80,6 @@
     
     
     </style>
-
-
-
 </head>
    
 <body>
@@ -58,8 +92,71 @@
 </div> --}}
 
 
+
+<div class="d-flex flex-grow-1">
+
+    <!-- Sidebar -->
+    <div class="sidebar bg-dark text-white p-3 sticky-top">
+        <h3 class="text-center mb-3">Dashboard</h3>
+        <hr>
+        <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+                <a href="/viewStudents" class="nav-link text-white ">
+                     <i class="bi bi-people"></i> Students
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a href="/register-crud" class="nav-link text-white">
+                    <i class="bi bi-person-add"></i> New Student
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a href="/scan" class="nav-link text-white">
+                    <i class="bi bi-upc-scan"></i> Scan
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a href="/records" class="nav-link text-white">
+                    <i class="bi bi-clock"></i> Audit Trails
+                </a>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <form action="/logout" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger w-100">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+
+
     {{ $slot }}
     
+
+ </div>
+
+
+
+ <script>
+window.onload = function() {
+    setTimeout(function() {
+
+        // hide loader overlay
+        document.getElementById("loader-wrapper").style.display = "none";
+
+        // show table
+        const table = document.getElementById("mytable");
+        table.style.display = "table";
+        table.classList.add("fade-in");
+
+    }, 1000);
+}
+</script>
 
 <footer class="text-center py-3 mt-auto">
     &copy; 2024 Attendance System. All rights reserved.
