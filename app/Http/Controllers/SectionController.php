@@ -10,7 +10,8 @@ class SectionController extends Controller
     //
     public function viewSections()
     {
-        return view('sections.section');
+        $sections = Section::all();
+        return view('sections.section', compact('sections'));
     }
 
     public function createSection()
@@ -26,7 +27,7 @@ class SectionController extends Controller
         ]);
 
         Section::create($values);
-        return redirect('/sections/create')->with('success', 'Section created successfully!');
+        return redirect('/sections')->with('success', 'Section created successfully!');
     }
 
     

@@ -2,14 +2,19 @@
 
     <!-- Main Content -->
     <div class="flex-grow-1 p-4">
-
-        <!-- FIRST TABLE -->
+        <div class="container mt-3 position-relative" style="min-height: 400px;">
+        <div id="loader-wrapper">
+                <div id="loader"></div>
+            </div>
         <div class="card mb-4">
+            
             <div class="card-header">
                 <h4 class="card-title mb-0">Login History</h4>
             </div>
             <div class="card-body">
+                
                 <table id="table1" class="table table-bordered table-striped table-hover align-middle">
+                    
                     <thead class="table-dark">
                         <tr>
                             <th>User</th>
@@ -33,6 +38,7 @@
                 </table>
             </div>
         </div>
+        
 
         <!-- SECOND TABLE -->
         <div class="card">
@@ -62,6 +68,7 @@
         </div>
 
     </div>
+     </div>
 
 
 </x-layout>

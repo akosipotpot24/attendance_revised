@@ -120,6 +120,14 @@
                     <i class="bi bi-clock"></i> Audit Trails
                 </a>
             </li>
+            <li class="nav-item mb-2">
+                <a href="/sections" class="nav-link text-white">
+                    <i class="bi bi-list-task"></i> Section
+                </a>
+            </li>
+
+
+            
             <hr>
             <li class="nav-item">
                 <form action="/logout" method="POST">
@@ -173,7 +181,7 @@ window.onload = function() {
 <script src="https://cdn.datatables.net/2.3.7/js/dataTables.min.js"></script>
 <script>
 $(document).ready(function () {
-    $('#table1, #table2').DataTable({
+    $('#table1, #table2, #table3').DataTable({
         pageLength: 10,
         responsive: true,
         language: {
