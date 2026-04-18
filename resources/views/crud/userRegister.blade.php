@@ -49,7 +49,7 @@
             </div>
 
             <div class="row mb-3">
-              <div class="col-lg-3">
+              {{-- <div class="col-lg-3">
                 <label for="user_type" class="form-label">User Type:</label>
                 <select name="user_type"  id="user_type" class="form-select" id="">
                   <option value="" disabled selected>Select Role</option>
@@ -62,7 +62,7 @@
                 @error('user_type')
                     <p class="m-0 small alert alert-danger shadow-sm">{{ $message }}</p>
                     @enderror
-              </div>
+              </div> --}}
 
               <div class="col-lg-4">
                 <label for="password" class="form-label">Password:</label>

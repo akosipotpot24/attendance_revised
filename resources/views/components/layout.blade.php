@@ -181,14 +181,27 @@ window.onload = function() {
 <script src="https://cdn.datatables.net/2.3.7/js/dataTables.min.js"></script>
 <script>
 $(document).ready(function () {
-    $('#table1, #table2, #table3').DataTable({
+    $('#table2, #table3').DataTable({
         pageLength: 10,
         responsive: true,
         language: {
             searchPlaceholder: "Search..."
-        }
+        },
+        order:[[4,'asc']]
+    });
+
+
+    $('#table1').DataTable({
+        pageLength: 10,
+        responsive: true,
+        language: {
+            searchPlaceholder: "Search..."
+        },
+        order:[[0,'asc']],[[1,'asc']]
     });
 });
+
+
 </script>
 
 

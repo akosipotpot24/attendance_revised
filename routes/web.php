@@ -10,9 +10,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/2', function () {
-    return view('crud/index');
-});
+
 
 Route::get('/userRegister', function () {
     return view('crud/userRegister');
@@ -44,7 +42,7 @@ Route::post('/userRegister',[CrudController::class, 'userRegister']);
 Route::get('/records',[CrudController::class, 'records']);
 
 Route::post('/register',[CrudController::class, 'register']);
-Route::get('/viewStudents',[CrudController::class, 'viewstudents']);
+Route::get('/viewStudents',[CrudController::class, 'viewstudents'])->middleware('authenticate');
 Route::get('/crud/edit/{student_number}', [CrudController::class, 'edit']);
 Route::put('/crud/update/{student_number}', [CrudController::class, 'update']);
 Route::delete('/crud/delete/{student_number}', [CrudController::class, 'destroy']);

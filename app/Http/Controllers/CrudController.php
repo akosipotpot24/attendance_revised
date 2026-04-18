@@ -128,7 +128,7 @@ class CrudController extends Controller
             'User logged out'
         ));
         auth()->logout();
-        return redirect('/2')->with('logout', 'You are Logged Out');
+        return redirect('/')->with('logout', 'You are Logged Out');
     }
 
     public function login(Request $req){
@@ -165,10 +165,11 @@ class CrudController extends Controller
             'username' => 'required',
             'fullname' => 'required',
             'email' => 'required|email',
-            'user_type' => 'required',
             'password' => 'required|min:6|confirmed'
         ]);
-
+        $values['password'] = bcrypt($values['password']);
+        $values['user_type'] = 0;
+        $values['status'] = 0;
         User::create($values);
 
         return redirect('/userRegister')->with('success', 'User registered successfully!');

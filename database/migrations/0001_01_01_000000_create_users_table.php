@@ -9,6 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
+    // note: 
+    //     *role
+    //         0 = user
+    //         1 = admin
+    //         2 = superadmin
+    //     *status
+    //         0 = pending
+    //         1 = approved
+    //         2 = disabled    
+
+
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
@@ -18,6 +30,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('user_type');
+            $table->tinyInteger('status')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
