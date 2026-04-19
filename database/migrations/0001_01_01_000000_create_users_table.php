@@ -11,14 +11,15 @@ return new class extends Migration
      */
 
     // note: 
-    //     *role
-    //         0 = user
-    //         1 = admin
-    //         2 = superadmin
+    //     *user_type
+    //         0 = not a user
+    //         1 = user
+    //         2 = admin
+    //         3 = superadmin
     //     *status
     //         0 = pending
     //         1 = approved
-    //         2 = disabled    
+    //         2 = declined  
 
 
     public function up(): void

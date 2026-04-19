@@ -7,6 +7,20 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
+    .box {
+    width: 200px;
+    padding: 20px;
+    background: lightgreen;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+        }
+
+        .fade-out {
+            opacity: 0;
+        }
+
+
     body {
       background-color: #f8f9fa;
     }
@@ -51,7 +65,7 @@
       </div>
       @if (session()->has('failed'))
                         <div class="container container--narrow">
-                        <div class="alert alert-danger text-center">
+                        <div class="alert alert-danger text-center box" id="myBox">
                           {{ session('failed') }}
                         </div>
                         </div>
@@ -70,5 +84,13 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+setTimeout(() => {
+    document.querySelectorAll('.box').forEach(el => {
+        el.classList.add('fade-out');
+    });
+}, 3000);
+</script>
+</script>
 </body>
 </html>

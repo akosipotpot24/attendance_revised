@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CrudController;
 use App\Http\Controllers\SectionController;
 use Illuminate\Support\Facades\Route;
@@ -55,3 +55,9 @@ Route::post('/sections', [SectionController::class, 'storeSection']);
 Route::get('/sections/{id}/edit', [SectionController::class, 'editSection']);
 Route::put('/sections/{id}', [SectionController::class, 'updateSection']);
 Route::delete('/sections/{id}', [SectionController::class, 'destroySection']);
+
+
+//user approvals
+Route::get('/users', [UserController::class, 'viewUsers'])->middleware('admin');
+Route::put('/user/approve/{id}', [UserController::class, 'approveUser']);
+Route::put('/user/decline/{id}', [UserController::class, 'declineUser']);

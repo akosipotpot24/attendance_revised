@@ -131,35 +131,55 @@ class CrudController extends Controller
         return redirect('/')->with('logout', 'You are Logged Out');
     }
 
-    public function login(Request $req){
+    public function login(Request $req, User $user){
+
     $values= $req->validate([
         'username' => 'required',
         'password' => 'required'
     ]);
-    if (auth()->attempt([
-        'username' => $values['username'],
-        'password' => $values['password']
-    ])){
-
-        $req->session()->regenerate();
-        event(new AuditTrails(
-            auth()->user()->id,
-            'User( '.auth()->user()->fullname.' ) attempt logged in',
-            'authentication: Successfully logged in',
-            'User logged in'
-        ));
-        return redirect('/viewStudents');
-    }
-    else{
-        event(new AuditTrails(
+    $user = User::where('username', $values['username'])
+                    ->where('status', '1')
+                    ->whereIn('user_type', [1, 2, 3])->first();
+    if (!$user){
+       event(new AuditTrails(
             $values['username'],
-            'User has attempted to log in with username: '.$values['username'],
+            'Login failed: user not approved or invalid role',
             'authentication: Failed login attempt',
-            'User logged in'
+            'User login'
         ));
-        return back()->with(['failed' => 'Invalid username or password']);
-        }
+
+        return back()->with('failed', 'Invalid user, Please wait for approval or contact administrator');
+    } //$user
+    
+
+
+     if (auth()->attempt([
+         'username' => $values['username'],
+         'password' => $values['password']
+     ])){
+
+         $req->session()->regenerate();
+         event(new AuditTrails(
+             auth()->user()->id,
+             'User( '.auth()->user()->fullname.' ) attempt logged in',
+             'authentication: Successfully logged in',
+             'User logged in'
+         ));
+         return redirect('/viewStudents');
+     }
+     else{
+         event(new AuditTrails(
+             $values['username'],
+             'User has attempted to log in with username: '.$values['username'],
+             'authentication: Failed login attempt',
+             'User logged in'
+         ));
+         return back()->with(['failed' => 'Invalid username or password']);
+         }
     }
+
+
+
     public function userRegister(Request $req){
         $values= $req->validate([
             'username' => 'required',
@@ -172,7 +192,7 @@ class CrudController extends Controller
         $values['status'] = 0;
         User::create($values);
 
-        return redirect('/userRegister')->with('success', 'User registered successfully!');
+        return redirect('/')->with('success', 'User registered successfully! Please wait for administrator approval.');
     }
 
 

@@ -83,6 +83,7 @@
 </head>
    
 <body>
+    
 
 
 {{-- <div class="spinner-wrapper">
@@ -95,59 +96,72 @@
 
 <div class="d-flex flex-grow-1">
 
-    <!-- Sidebar -->
-    <div class="sidebar bg-dark text-white p-3 sticky-top">
-        <h3 class="text-center mb-3">Dashboard</h3>
-        <hr>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-2">
-                <a href="/viewStudents" class="nav-link text-white ">
-                     <i class="bi bi-people"></i> Students
-                </a>
-            </li>
-            <li class="nav-item mb-2">
-                <a href="/register-crud" class="nav-link text-white">
-                    <i class="bi bi-person-add"></i> New Student
-                </a>
-            </li>
-            <li class="nav-item mb-2">
-                <a href="/scan" class="nav-link text-white">
-                    <i class="bi bi-upc-scan"></i> Scan
-                </a>
-            </li>
-            <li class="nav-item mb-2">
-                <a href="/records" class="nav-link text-white">
-                    <i class="bi bi-clock"></i> Audit Trails
-                </a>
-            </li>
-            <li class="nav-item mb-2">
-                <a href="/sections" class="nav-link text-white">
-                    <i class="bi bi-list-task"></i> Section
-                </a>
-            </li>
-
-
-            
-            <hr>
-            <li class="nav-item">
-                <form action="/logout" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger w-100">
-                        <i class="bi bi-box-arrow-right"></i> Logout
-                    </button>
-                </form>
-            </li>
-        </ul>
-    </div>
-
-
-
-    {{ $slot }}
     
 
- </div>
+    <div class="sidebar bg-dark text-white p-3 sticky-top d-flex flex-column">
+    <h3 class="text-center mb-3">Dashboard</h3>
+    <hr>
 
+    <ul class="nav flex-column flex-grow-1">
+        <li class="nav-item mb-2">
+            <a href="/viewStudents" class="nav-link text-white">
+                <i class="bi bi-people"></i> Students
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="/register-crud" class="nav-link text-white">
+                <i class="bi bi-person-add"></i> New Student
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="/scan" class="nav-link text-white">
+                <i class="bi bi-upc-scan"></i> Scan
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="/records" class="nav-link text-white">
+                <i class="bi bi-clock"></i> Audit Trails
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="/sections" class="nav-link text-white">
+                <i class="bi bi-list-task"></i> Section
+            </a>
+        </li>
+      
+
+        <li class="nav-item mt-auto pt-3">
+            <a href="/users" class="nav-link text-white">
+                <i class="bi bi-person-fill-exclamation"></i> Approvals
+            </a>
+            @if (session()->has('error'))
+                        <div class="container container--narrow">
+                          <div class="alert alert-danger text-center">
+                            {{ session('error') }}
+                          </div>
+                        </div>
+                        @endif
+        </li>
+
+
+        <li class="nav-item mt-auto pt-3">
+            <hr>
+            <form action="/logout" method="POST">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-danger w-100">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+    
+</div>
+
+      {{ $slot }}
+
+ </div>
+  
 
 
  <script>
@@ -181,7 +195,7 @@ window.onload = function() {
 <script src="https://cdn.datatables.net/2.3.7/js/dataTables.min.js"></script>
 <script>
 $(document).ready(function () {
-    $('#table2, #table3').DataTable({
+    $('#table2, #table3,#table4').DataTable({
         pageLength: 10,
         responsive: true,
         language: {
@@ -197,7 +211,7 @@ $(document).ready(function () {
         language: {
             searchPlaceholder: "Search..."
         },
-        order:[[0,'asc']],[[1,'asc']]
+        order:[[0,'asc'],[1,'asc']]
     });
 });
 
