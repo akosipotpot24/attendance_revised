@@ -1,19 +1,16 @@
 <x-layout>
 
 
-    <!-- Main Content -->
-    <div class="flex-grow-1 p-4">
-        
-        <!-- IMPORTANT: height + relative -->
-        <div class="container mt-3 position-relative" style="min-height: 400px;">
 
-            <!-- Loader -->
+    <div class="flex-grow-1 p-4">
+        <div class="container mt-3 position-relative" style="min-height: 400px;">
             <div id="loader-wrapper">
                 <div id="loader"></div>
             </div>
-
-            <!-- Table -->
-            <table id="mytable" class="table table-bordered table-striped table-hover align-middle" style="display:none;">
+            <div class="card">
+                <div class="card-header">Students</div>
+                <div class="card-body">
+                     <table id="mytable" class="table table-bordered table-striped table-hover align-middle" style="display:none;">
                 <thead class="table-dark">
                     <tr>
                         <th>Student Number</th>
@@ -61,6 +58,10 @@
                 </tbody>
             </table>
 
+                </div>
+            </div>
+           
+           
         </div>
     </div>
 
@@ -80,5 +81,8 @@ window.onload = function() {
     }, 1000);
 }
 </script>
+
+
+
 
 </x-layout>
