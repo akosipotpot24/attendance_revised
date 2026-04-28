@@ -7,6 +7,7 @@ use App\Events\StudentUpdated;
 use App\Models\ActivityLog;
 use App\Models\Attendance;
 use App\Models\AuditTrail;
+use App\Models\Section;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -137,9 +138,10 @@ class CrudController extends Controller
         'username' => 'required',
         'password' => 'required'
     ]);
+    
     $user = User::where('username', $values['username'])
                     ->where('status', '1')
-                    ->whereIn('user_type', [1, 2, 3])->first();
+                    ->whereIn('user_type', [1, 2, 3, 4])->first();
     if (!$user){
        event(new AuditTrails(
             $values['username'],
@@ -151,7 +153,6 @@ class CrudController extends Controller
         return back()->with('failed', 'Invalid user, Please wait for approval or contact administrator');
     } //$user
     
-
 
      if (auth()->attempt([
          'username' => $values['username'],
@@ -165,6 +166,11 @@ class CrudController extends Controller
              'authentication: Successfully logged in',
              'User logged in'
          ));
+         
+        if (auth()->user()->user_type == 4){
+            return redirect('/scan');
+        }
+
          return redirect('/viewStudents');
      }
      else{
@@ -185,14 +191,24 @@ class CrudController extends Controller
             'username' => 'required',
             'fullname' => 'required',
             'email' => 'required|email',
+            'user_type' => 'required',
             'password' => 'required|min:6|confirmed'
         ]);
         $values['password'] = bcrypt($values['password']);
-        $values['user_type'] = 0;
-        $values['status'] = 0;
-        User::create($values);
+        if($values['user_type'] == 4){
+          $values['user_type'] = 4;
+          $values['status'] = 0;
+          User::create($values);
 
         return redirect('/')->with('success', 'User registered successfully! Please wait for administrator approval.');
+        }
+        else{
+          $values['user_type'] = 0;
+          $values['status'] = 0;
+          User::create($values);
+
+        return redirect('/')->with('success', 'User registered successfully! Please wait for administrator approval.');
+        }
     }
 
 
@@ -224,9 +240,10 @@ class CrudController extends Controller
         return view('crud/AuditTrails' ,compact('records','auditTrails'));
     }
 
-    public function edit($students){
-        $student = Student::where('student_number', $students)->first();
-        return view('crud/edit', compact('student'));
+    public function edit($student){
+        $student = Student::where('student_number', $student)->first();
+        $sections = Section::all();
+        return view('crud/edit', compact('student','sections'));
     }
 
 }

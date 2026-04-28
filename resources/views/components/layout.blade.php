@@ -113,11 +113,11 @@
                 <i class="bi bi-person-add"></i> New Student
             </a>
         </li>
-        <li class="nav-item mb-2">
+        {{-- <li class="nav-item mb-2">
             <a href="/scan" class="nav-link text-white">
                 <i class="bi bi-upc-scan"></i> Scan
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item mb-2">
             <a href="/records" class="nav-link text-white">
                 <i class="bi bi-clock"></i> Audit Trails
@@ -134,15 +134,22 @@
             <a href="/users" class="nav-link text-white">
                 <i class="bi bi-person-fill-exclamation"></i> Approvals
             </a>
+            
             @if (session()->has('error'))
                         <div class="container container--narrow">
-                          <div class="alert alert-danger text-center">
+                          <div class="alert alert-danger text-center box" id="myBox">
                             {{ session('error') }}
                           </div>
                         </div>
                         @endif
+
+
+                        <a href="/users" class="nav-link text-white">
+                <i class="bi bi-person-fill-exclamation"></i> Library Location
+            </a>
         </li>
 
+        
 
         <li class="nav-item mt-auto pt-3">
             <hr>
@@ -180,6 +187,14 @@ window.onload = function() {
 }
 </script>
 
+<script>
+setTimeout(() => {
+    document.querySelectorAll('.box').forEach(el => {
+        el.classList.add('fade-out');
+    });
+}, 3000);
+</script>
+
 <footer class="text-center py-3 mt-auto">
     &copy; 2024 Attendance System. All rights reserved.
 </footer>
@@ -202,6 +217,14 @@ $(document).ready(function () {
             searchPlaceholder: "Search..."
         },
         order:[[4,'asc']]
+    });
+
+     $('#mytable').DataTable({
+        pageLength: 10,
+        responsive: true,
+        language: {
+            searchPlaceholder: "Search..."
+        }
     });
 
 

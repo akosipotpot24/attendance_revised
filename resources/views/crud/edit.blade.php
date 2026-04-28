@@ -78,15 +78,15 @@
               <div class="col-lg-3">
                 <label for="year" class="form-label">Section:</label>
                 <select name="section" id="section" class="form-select" >
-                    <option value="" disabled selected>Select Section</option>
-                    <option value="makabansa"{{ $student->section == 'makabansa' ? 'selected' : '' }}>Makabansa</option>
-                    <option value="makabayan"{{ $student->section == 'makabayan' ? 'selected' : '' }}>Makabayan</option>
-                    <option value="makadiyos"{{ $student->section == 'makadiyos' ? 'selected' : '' }}>Makadiyos</option>
-                    <option value="makakalikasan"{{ $student->section == 'makakalikasan' ? 'selected' : '' }}>Makakalikasan</option>
+                    @foreach($sections as $section)
+                  <option value="{{ $section->grade_level_code }} - {{ $section->section }}">
+                      {{ $section->grade_level_code }} - {{ $section->section }}
+                  </option>
+              @endforeach
                   </select>
               </div>
               <div class="col-lg-3">
-                <label for="year" class="form-label">Student Number:</label>
+                <label for="year" class="form-label">ID Number:</label>
                 <input type="text" name="student_number" class="form-control" value="{{ $student->student_number }}">
               </div>
 

@@ -65,7 +65,7 @@
       </div>
       @if (session()->has('failed'))
                         <div class="container container--narrow">
-                        <div class="alert alert-danger text-center box" id="myBox">
+                        <div class="alert alert-danger text-center" >
                           {{ session('failed') }}
                         </div>
                         </div>
@@ -84,13 +84,7 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-setTimeout(() => {
-    document.querySelectorAll('.box').forEach(el => {
-        el.classList.add('fade-out');
-    });
-}, 3000);
-</script>
+
 </script>
 </body>
 </html>

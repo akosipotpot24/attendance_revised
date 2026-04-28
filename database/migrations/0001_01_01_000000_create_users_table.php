@@ -16,6 +16,7 @@ return new class extends Migration
     //         1 = user
     //         2 = admin
     //         3 = superadmin
+    //         4 = library user(scan)
     //     *status
     //         0 = pending
     //         1 = approved

@@ -26,43 +26,45 @@
             <div class="row mb-3">
               <div class="col-lg-4">
                 <label for="username" class="form-label">UserName:</label>
-                <input type="text" class="form-control" id="username" name="username">
+                <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}">
                 @error('username')
                     <p class="m-0 small alert alert-danger shadow-sm">{{ $message }}</p>
                 @enderror
               </div>
               <div class="col-lg-4">
                 <label for="fullname" class="form-label">Full Name:</label>
-                <input type="text" class="form-control" id="fullname" name="fullname">
+                <input type="text" class="form-control" id="fullname" name="fullname" value="{{ old('fullname') }}">
                 @error('fullname')
                     <p class="m-0 small alert alert-danger shadow-sm">{{ $message }}</p>
                     @enderror
               </div>
               <div class="col-lg-4">
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="email" name="email">
+                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
                 @error('email')
                     <p class="m-0 small alert alert-danger shadow-sm">{{ $message }}</p>
                 @enderror
               </div>
 
+              
+
             </div>
 
             <div class="row mb-3">
-              {{-- <div class="col-lg-3">
+               <div class="col-lg-3">
                 <label for="user_type" class="form-label">User Type:</label>
                 <select name="user_type"  id="user_type" class="form-select" id="">
                   <option value="" disabled selected>Select Role</option>
-                  <option value="admin">Admin</option>
-                  <option value="hslrc">HSLRC</option>
-                  <option value="gslrc">GSLRC</option>
-                  <option value="pslrc">PSLRC</option>
-                  <option value="cllrc">CLLRC</option>
+                  <option value="0">USER</option>
+                  <option value="4">HSLRC</option>
+                  <option value="4">GSLRC</option>
+                  <option value="4">PSLRC</option>
+                  <option value="4">CLLRC</option>
                 </select>
                 @error('user_type')
                     <p class="m-0 small alert alert-danger shadow-sm">{{ $message }}</p>
                     @enderror
-              </div> --}}
+              </div> 
 
               <div class="col-lg-4">
                 <label for="password" class="form-label">Password:</label>
