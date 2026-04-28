@@ -7,6 +7,7 @@ use App\Events\StudentUpdated;
 use App\Models\ActivityLog;
 use App\Models\Attendance;
 use App\Models\AuditTrail;
+use App\Models\Section;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -239,9 +240,10 @@ class CrudController extends Controller
         return view('crud/AuditTrails' ,compact('records','auditTrails'));
     }
 
-    public function edit($students){
-        $student = Student::where('student_number', $students)->first();
-        return view('crud/edit', compact('student'));
+    public function edit($student){
+        $student = Student::where('student_number', $student)->first();
+        $sections = Section::all();
+        return view('crud/edit', compact('student','sections'));
     }
 
 }
