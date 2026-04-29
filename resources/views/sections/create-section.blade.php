@@ -38,5 +38,21 @@
   </div>
 </div>
 
+{{-- FACULTY: 
+NT: registrar
+    admin
+    marshall
+    human_resources
+    housekeeping
+    finance
+    guidance
+    library
+STUDENT:grade 7
+    grade 8
+    grade 9
+    grade 10
+    grade 11
+    grade 12 --}}
+
 
 </x-section>
