@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     <title>OLOPSC</title>
 
@@ -13,14 +12,14 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet" />
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+    <!-- ✅ Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.min.css">
 
     <!-- Font Awesome -->
-    <script defer src="https://kit.fontawesome.com/59a89e2849.js" crossorigin="anonymous"></script>
+    <script defer src="https://kit.fontawesome.com/59a89e2849.js"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('main.css') }}" />
@@ -64,15 +63,20 @@
 <body>
 
 <!-- Header -->
-<header class="header-bar mb-3" style="background-color:#0a095f;">
-    <div class="container d-flex flex-column flex-md-row align-items-center p-3">
-        <h4 class="my-0 mr-md-auto font-weight-normal">
-            <a href="/1" style="color: #ffd230;"><b>OLOPSC</b> Attendance System</a>
+<header class="mb-3" style="background-color:#0a095f;">
+    <div class="container d-flex flex-column flex-md-row align-items-center p-3 gap-2">
+
+        <h4 class="my-0 me-md-auto">
+            <a href="/1" class="text-warning text-decoration-none">
+                <b>4th's</b> Attendance System
+            </a>
         </h4>
 
         @auth
-            <div class="mr-3">
-                <select class="form-control form-control-sm" style="background-color: #0a095f; color: #ffd230;" onchange="if(this.value) window.location.href=this.value;">
+            <div>
+                <select class="form-select form-select-sm"
+                        style="background-color: #0a095f; color: #ffd230;"
+                        onchange="if(this.value) window.location.href=this.value;">
                     <option value="" disabled selected>Registration</option>
                     <option value="{{ url('/userreg') }}">User Registration</option>
                     <option value="{{ url('/reg') }}">Grade School</option>
@@ -81,21 +85,14 @@
                 </select>
             </div>
 
-            <div class="mr-3">
-                <a href="/records" class="btn btn-success">Audit Trails</a>
-            </div>
-
-            <div class="mr-3">
-                <a href="/highschool" class="btn btn-primary">Patrons</a>
-            </div>
-
-            <div class="mr-3">
-                <a href="/section" class="btn btn-warning">Section</a>
-            </div>
+            <a href="/records" class="btn btn-success btn-sm">Audit Trails</a>
+            <a href="/users" class="btn btn-primary btn-sm">Users Approval</a>
+            <a href="/section" class="btn btn-warning btn-sm">Section</a>
 
             <form action="/logout" method="POST" class="m-0">
                 @csrf
-                <button class="btn btn-danger">Logout</button>
+                @method('DELETE')
+                <button class="btn btn-danger btn-sm">Logout</button>
             </form>
         @endauth
     </div>
@@ -106,22 +103,24 @@
 
 <!-- Footer -->
 <footer class="border-top text-center small text-muted py-3">
-    <p class="m-0">&copy; {{ now()->format('Y') }}
-        <a href="/" class="text-muted"><b>Attendance System by 4th</b></a>.
+    <p class="m-0">
+        &copy; {{ now()->format('Y') }}
+        <a href="/" class="text-muted text-decoration-none">
+            <b>Attendance System by 4th</b>
+        </a>
     </p>
 </footer>
 
-<!-- ✅ REQUIRED SCRIPTS -->
-<!-- jQuery -->
+<!-- ✅ jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+<!-- ✅ Bootstrap 5 JS (FIXED) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- DataTables JS -->
+<!-- DataTables -->
 <script src="https://cdn.datatables.net/2.3.7/js/dataTables.min.js"></script>
 
-<!-- ✅ DataTables INIT -->
+<!-- DataTables INIT -->
 <script>
 $(document).ready(function () {
 
@@ -131,7 +130,7 @@ $(document).ready(function () {
         language: {
             searchPlaceholder: "Search..."
         },
-        order: [[4, 'asc']] // for table4
+        order: [[4, 'asc']]
     });
 
     $('#table1').DataTable({
@@ -151,16 +150,14 @@ $(document).ready(function () {
 });
 </script>
 
-<!-- ✅ FIXED LOADER -->
+<!-- Loader -->
 <script>
 window.onload = function() {
     setTimeout(function() {
 
-        // hide loader
         const loader = document.getElementById("loader-wrapper");
         if(loader) loader.style.display = "none";
 
-        // show ALL tables
         document.querySelectorAll("table").forEach(table => {
             table.style.display = "table";
             table.classList.add("fade-in");

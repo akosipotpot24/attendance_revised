@@ -41,14 +41,15 @@
                         </td>
                         <td class="text-center">
                             <div class="d-inline-flex gap-2">
-                                <a href="/crud/edit/{{ $student->student_number }}" class="btn btn-sm btn-warning">
-                                    <i class="bi bi-pencil-fill"></i>
+                                <a href="/crud/edit/{{ $student->student_number }}" class="btn btn-sm btn-warning mr-3">
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
+                                
                                 <form action="/crud/delete/{{ $student->student_number }}" method="POST" onsubmit="return confirm('Delete this student?')">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-danger">
-                                        <i class="bi bi-trash"></i>
+                                        <i class="fa-solid fa-xmark"></i>
                                     </button>
                                 </form>
                             </div>
