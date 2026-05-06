@@ -9,6 +9,9 @@ Route::get('/', function () {
     return view('crud/index');
 });
 
+Route::get('/welcome', function () {
+    return view('crud/welcome');
+});
 
 
 
@@ -26,10 +29,9 @@ Route::get('/scan', function () {
 Route::get('/register-attendance', function () {
     return view('attendance/register');
 });
-Route::get('/register-crud', function () {
-    return view('crud/register');
-});
 
+
+Route::get('/register-crud',[CrudController::class, 'newUser']);
 
 Route::get('/scan/{student_number}', [CrudController::class, 'scan']);
 

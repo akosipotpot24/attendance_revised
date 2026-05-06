@@ -78,14 +78,16 @@ class CrudController extends Controller
     public function update(Request $req, $student_number){
         $values=$req->validate([
             'firstname' => 'required',
-            'middlename' => 'required',
+            'middlename' => '',
             'lastname' => 'required',
             'school_role' => 'required',
             'library_branch' => 'required',
             'section' => 'required',
             'student_number' => 'required',
-            'avatar' => 'image|max:3000|nullable'
+            'avatar' => 'image|max:8000|nullable'
         ]);
+
+  
       if ($req->hasFile('avatar')) {
 
         $filename = $values['student_number'] . uniqid() . ".jpg";
@@ -171,7 +173,7 @@ class CrudController extends Controller
             return redirect('/scan');
         }
 
-         return redirect('/viewStudents');
+         return redirect('/welcome');
      }
      else{
          event(new AuditTrails(
@@ -213,7 +215,7 @@ class CrudController extends Controller
 
 
     public function register(Request $req){
-        $values= $req->validate([
+        $values= $req->validate([ 
             'firstname' => 'required',
             'middlename' => '',
             'lastname' => 'required',
@@ -244,6 +246,11 @@ class CrudController extends Controller
         $student = Student::where('student_number', $student)->first();
         $sections = Section::all();
         return view('crud/edit', compact('student','sections'));
+    }
+
+    public function newUser(){
+        $sections = Section::all();
+        return view('crud/register', compact ('sections'));
     }
 
 }

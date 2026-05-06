@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-    crossorigin="anonymous">
-  <title>Document</title>
-</head>
-<body>
-  <div class="container mt-5">
+<x-layout>
+ <div class="container mt-5">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">REGISTER 
-           <a href="/viewStudents" class="btn btn-danger float-end">BACK</a>
-        </div>
+         <div class="card-header d-flex justify-content-between align-items-center">
+        <h1 class="mb-0">REGISTER</h1>
+        <a href="/viewStudents" class="btn btn-danger">BACK</a>
+    </div>
 
         <!-- Add card-body for inner margins -->
         <div class="card-body">
@@ -64,11 +53,11 @@
               <div class="col-lg-3">
                 <label for="year" class="form-label">Section:</label>
                 <select name="section" id="section" class="form-select" >
-                    <option value="" disabled selected>Select Section</option>
-                    <option value="makabansa">Makabansa</option>
-                    <option value="makabayan">Makabayan</option>
-                    <option value="makadiyos">Makadiyos</option>
-                    <option value="makakalikasan">Makakalikasan</option>
+                     @foreach($sections as $section)
+                  <option value="{{ $section->grade_level_code }} - {{ $section->section }}">
+                      {{ $section->grade_level_code }} - {{ $section->section }}
+                  </option>
+              @endforeach
                   </select>
               </div>
               <div class="col-lg-3">
@@ -82,6 +71,5 @@
         </div>
       </div> <!-- card -->
     </div>
-  </div>
-</body>
-</html>
+  </div>  
+</x-layout>

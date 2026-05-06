@@ -7,7 +7,7 @@
     <title>OLOPSC</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('olopsc_logo.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('php logo.png') }}">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet" />
@@ -60,14 +60,14 @@
     </style>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <!-- Header -->
 <header class="mb-3" style="background-color:#0a095f;">
     <div class="container d-flex flex-column flex-md-row align-items-center p-3 gap-2">
 
         <h4 class="my-0 me-md-auto">
-            <a href="/1" class="text-warning text-decoration-none">
+            <a href="/viewStudents" class="text-warning text-decoration-none">
                 <b>4th's</b> Attendance System
             </a>
         </h4>
@@ -78,7 +78,7 @@
                         style="background-color: #0a095f; color: #ffd230;"
                         onchange="if(this.value) window.location.href=this.value;">
                     <option value="" disabled selected>Registration</option>
-                    <option value="{{ url('/userreg') }}">User Registration</option>
+                    <option value="{{ url('/register-crud') }}">Student Registration</option>
                     <option value="{{ url('/reg') }}">Grade School</option>
                     <option value="{{ url('/reghslrc') }}">High School</option>
                     <option value="{{ url('/regcllrc') }}">College</option>
@@ -102,14 +102,14 @@
 {{ $slot }}
 
 <!-- Footer -->
-<footer class="border-top text-center small text-muted py-3">
-    <p class="m-0">
-        &copy; {{ now()->format('Y') }}
-        <a href="/" class="text-muted text-decoration-none">
-            <b>Attendance System by 4th</b>
-        </a>
-    </p>
-</footer>
+   <footer class="border-top text-center small text-muted py-3 mt-auto">
+        <p class="m-0">
+            &copy; {{ now()->format('Y') }}
+            <a href="/" class="text-muted text-decoration-none">
+                <b>Attendance System by 4th</b>
+            </a>
+        </p>
+    </footer>
 
 <!-- ✅ jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
