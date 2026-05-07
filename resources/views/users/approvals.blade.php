@@ -1,9 +1,7 @@
 <x-layout>
 <div class="flex-grow-1 p-4">
         <div class="container mt-3 position-relative" style="min-height: 400px;">
-        <div id="loader-wrapper">
-                <div id="loader"></div>
-            </div>
+        
         <div class="card mb-4">
             
             <div class="card-header">

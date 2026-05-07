@@ -8,6 +8,9 @@ class UserController extends Controller
 {
     //
 
+
+
+
     public function viewUsers(){
        $query =  User::where('status', '0');
        $users = $query->get();

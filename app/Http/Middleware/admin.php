@@ -22,7 +22,7 @@ class admin
     $user = auth()->user();
 
     if (!in_array($user->user_type, [2, 3]) || $user->status != 1) {
-        return redirect('/viewStudents')->with('error', 'Unauthorized access, Contact administrator for admin approval. ');
+        return redirect('/welcome')->with('error', 'Unauthorized access, Contact administrator for admin approval. ');
     }
         return $next($request);
     }

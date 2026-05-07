@@ -1,89 +1,84 @@
 <x-layout>
 
+    <div class="container mt-4" style="min-height: 400px;">
 
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-body p-4">
 
-    <div class="flex-grow-1 p-4">
-        <div class="container mt-3 position-relative" style="min-height: 400px;">
-            <div id="loader-wrapper">
-                <div id="loader"></div>
-            </div>
-            <div class="card">
-                <div class="card-header">Students</div>
-                <div class="card-body">
-                     <table id="mytable" class="table table-bordered table-striped table-hover align-middle" style="display:none;">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Student Number</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>School Role</th>
-                        <th>Library Branch</th>
-                        <th>Section</th>
-                        <th>Avatar</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($students as $student)
-                    <tr>
-                        <td>{{ $student->student_number }}</td>
-                        <td>{{ $student->firstname }}</td>
-                        <td>{{ $student->lastname }}</td>
-                        <td>{{ $student->school_role }}</td>
-                        <td>{{ $student->library_branch }}</td>
-                        <td>{{ $student->section }}</td>
-                        <td class="text-center">
-                            <a href="/crud/edit/{{ $student->student_number }}">
-                                <img src="/storage/avatars/{{ $student->avatar ?? 'default.png' }}"
-                                     class="rounded-circle img-thumbnail"
-                                     width="60" height="60">
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <div class="d-inline-flex gap-2">
-                                <a href="/crud/edit/{{ $student->student_number }}" class="btn btn-sm btn-warning mr-3">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                
-                                <form action="/crud/delete/{{ $student->student_number }}" method="POST" onsubmit="return confirm('Delete this student?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h5 class="mb-0 fw-500">Students</h5>
+                        <small class="text-muted">Manage registered students</small>
+                    </div>
+                    <a href="/scan" class="btn btn-sm btn-dark">
+                        <i class="fa-solid fa-barcode me-1"></i> Scan ID
+                    </a>
                 </div>
+
+                <table id="mytable" class="table table-hover align-middle mb-0" style="display:none;">
+                    <thead>
+                        <tr class="text-uppercase text-muted" style="font-size: 11px; letter-spacing: 0.06em;">
+                            <th class="border-0 pb-2">Student No.</th>
+                            <th class="border-0 pb-2">First Name</th>
+                            <th class="border-0 pb-2">Last Name</th>
+                            <th class="border-0 pb-2">Role</th>
+                            <th class="border-0 pb-2">Branch</th>
+                            <th class="border-0 pb-2">Section</th>
+                            <th class="border-0 pb-2 text-center">Avatar</th>
+                              @if(auth()->user()->user_type >= 2)
+                            <th class="border-0 pb-2 text-center">Action</th>
+                            @endif
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($students as $student)
+                        <tr style="font-size: 14px;">
+                            <td class="text-muted">{{ $student->student_number }}</td>
+                            <td>{{ $student->firstname }}</td>
+                            <td>{{ $student->lastname }}</td>
+                            <td>
+                                <span class="badge rounded-pill bg-light text-dark border" style="font-size: 11px;">
+                                    {{ $student->school_role }}
+                                </span>
+                            </td>
+                            <td class="text-muted">{{ $student->library_branch }}</td>
+                            <td class="text-muted">{{ $student->section }}</td>
+                            <td class="text-center">
+                                <a href="/crud/edit/{{ $student->student_number }}">
+                                    <img src="/storage/avatars/{{ $student->avatar ?? 'default.png' }}"
+                                         class="rounded-circle"
+                                         width="36" height="36"
+                                         style="object-fit:cover; border: 1px solid #e8e8e6;">
+                                </a>
+                            </td>
+
+                              @if(auth()->user()->user_type >= 2)
+                            <td class="text-center">
+                                <div class="d-inline-flex gap-2">
+                                    <a href="/crud/edit/{{ $student->student_number }}"
+                                       class="btn btn-sm btn-light border"
+                                       title="Edit">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <form action="/crud/delete/{{ $student->student_number }}" method="POST"
+                                          onsubmit="return confirm('Delete this student?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-light border text-danger" title="Delete">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                            @endif
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
             </div>
-           
-           
         </div>
+
     </div>
-
-
-<script>
-window.onload = function() {
-    setTimeout(function() {
-
-        // hide loader overlay
-        document.getElementById("loader-wrapper").style.display = "none";
-
-        // show table
-        const table = document.getElementById("mytable");
-        table.style.display = "table";
-        table.classList.add("fade-in");
-
-    }, 1000);
-}
-</script>
-
-
-
 
 </x-layout>

@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 class SectionController extends Controller
 {
     //
+
+       public function scanning()
+    {
+       
+        return view('attendance.scan');
+    }
+
+
     public function viewSections()
     {
         $sections = Section::all();

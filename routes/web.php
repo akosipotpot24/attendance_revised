@@ -45,14 +45,14 @@ Route::get('/records',[CrudController::class, 'records']);
 
 Route::post('/register',[CrudController::class, 'register']);
 Route::get('/viewStudents',[CrudController::class, 'viewstudents'])->middleware('authenticate');
-Route::get('/crud/edit/{student_number}', [CrudController::class, 'edit']);
+Route::get('/crud/edit/{student_number}', [CrudController::class, 'edit'])->middleware('admin');
 Route::put('/crud/update/{student_number}', [CrudController::class, 'update']);
 Route::delete('/crud/delete/{student_number}', [CrudController::class, 'destroy']);
 
 
 // section
-Route::get('/sections', [SectionController::class, 'viewSections']);
-Route::get('/sections/create', [SectionController::class, 'createSection']);
+Route::get('/sections', [SectionController::class, 'viewSections'])->middleware('admin');
+Route::get('/sections/create', [SectionController::class, 'createSection'])->middleware('admin');
 Route::post('/sections', [SectionController::class, 'storeSection']);
 Route::get('/sections/{id}/edit', [SectionController::class, 'editSection']);
 Route::put('/sections/{id}', [SectionController::class, 'updateSection']);
@@ -63,3 +63,6 @@ Route::delete('/sections/{id}', [SectionController::class, 'destroySection']);
 Route::get('/users', [UserController::class, 'viewUsers'])->middleware('admin');
 Route::put('/user/approve/{id}', [UserController::class, 'approveUser']);
 Route::put('/user/decline/{id}', [UserController::class, 'declineUser']);
+
+
+Route::get('/24', [SectionController::class, 'scanning'])->middleware('admin');
