@@ -66,3 +66,5 @@ Route::put('/user/decline/{id}', [UserController::class, 'declineUser']);
 
 
 Route::get('/24', [SectionController::class, 'scanning'])->middleware('admin');
+
+Route::get('/library-visits', [CrudController::class, 'libraryVisits'])->middleware('admin');

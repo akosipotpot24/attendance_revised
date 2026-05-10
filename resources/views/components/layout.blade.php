@@ -180,6 +180,50 @@
         table.dataTable tbody tr:hover td {
             background: #fafafa;
         }
+
+
+        /* Dropdown nav */
+        .dropdown { position: relative; }
+        
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            background: #ffffff;
+            border: 1px solid #e8e8e6;
+            border-radius: 10px;
+            padding: 4px;
+            min-width: 180px;
+            z-index: 100;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+        }
+
+        .dropdown-menu.show { display: block; }
+
+        .dropdown-label {
+            font-size: 11px;
+            color: #bbb;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 6px 10px 2px;
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            font-size: 13px;
+            color: #444;
+            padding: 7px 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.12s, color 0.12s;
+        }
+
+        .dropdown-item:hover { background: #f5f5f3; color: #1a1a1a; }
+
+        .dropdown-divider { height: 1px; background: #f0f0ee; margin: 4px 0; }
     </style>
 </head>
 
@@ -197,20 +241,36 @@
     </a>
 
     @auth
-        <select class="reg-select"
-                onchange="if(this.value) window.location.href=this.value;">
-            <option value="" disabled selected>Registration</option>
-            <option value="{{ url('/register-crud') }}">Student Registration</option>
-            <option value="{{ url('/reg') }}">Grade School</option>
-            <option value="{{ url('/reghslrc') }}">High School</option>
-            <option value="{{ url('/regcllrc') }}">College</option>
-        </select>
+        {{-- Registration dropdown --}}
+        <div class="dropdown" style="position:relative;">
+            <button class="nav-btn" style="display:inline-flex;align-items:center;gap:5px;">
+                Registration <span style="font-size:11px;color:#aaa;">▾</span>
+            </button>
+            <div class="dropdown-menu">
+                <span class="dropdown-label">Enroll</span>
+                <a class="dropdown-item" href="{{ url('/register-crud') }}">Student Registration</a>
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-label">By level</span>
+                <a class="dropdown-item" href="{{ url('/reg') }}">Grade School</a>
+                <a class="dropdown-item" href="{{ url('/reghslrc') }}">High School</a>
+                <a class="dropdown-item" href="{{ url('/regcllrc') }}">College</a>
+            </div>
+        </div>
 
         <a href="/viewStudents" class="nav-btn">Students</a>
-         @if(auth()->user()->user_type >= 2)
-             <a href="/records"      class="nav-btn">Audit Trails</a>
-             <a href="/users"        class="nav-btn">Users Approval</a>
-             <a href="/sections" class="nav-btn">Section</a>
+
+        @if(auth()->user()->user_type >= 2)
+        <div class="dropdown" style="position:relative;">
+            <button class="nav-btn" style="display:inline-flex;align-items:center;gap:5px;">
+                Admin <span style="font-size:11px;color:#aaa;">▾</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/records">Audit Trails</a>
+                <a class="dropdown-item" href="/users">Users Approval</a>
+                <a class="dropdown-item" href="/sections">Section</a>
+                <a class="dropdown-item" href="/library-visits">Library Visits</a>
+            </div>
+        </div>
         @endif
 
         <form action="/logout" method="POST" class="m-0">
@@ -270,6 +330,12 @@ $(document).ready(function () {
         pageLength: 10,
         responsive: true
     });
+    $('#visitTable').DataTable({
+    pageLength: 10,
+    responsive: true,
+    language: { searchPlaceholder: "Search..." },
+    order: [[5, 'desc']]  // column index 5 = Date, desc = latest first
+});
 });
 </script>
 
@@ -286,6 +352,30 @@ window.onload = function () {
     }, 800);
 };
 </script>
+
+<script>
+document.querySelectorAll('.dropdown > .nav-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const menu = this.nextElementSibling;
+        const isOpen = menu.classList.contains('show');
+
+        // close all open dropdowns first
+        document.querySelectorAll('.dropdown-menu.show')
+            .forEach(m => m.classList.remove('show'));
+
+        if (!isOpen) menu.classList.add('show');
+    });
+});
+
+// close when clicking outside
+document.addEventListener('click', function () {
+    document.querySelectorAll('.dropdown-menu.show')
+        .forEach(m => m.classList.remove('show'));
+});
+</script>
+
+
 
 </body>
 </html>

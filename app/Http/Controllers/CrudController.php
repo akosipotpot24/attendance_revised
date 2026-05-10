@@ -20,6 +20,13 @@ class CrudController extends Controller
 {
     
     //
+    public function libraryVisits()
+    {
+        $visits = Attendance::all();
+        return view('crud/library_visits', compact('visits'));
+    }
+
+
     public function scan($student_number)
 {
     $student = Student::where('student_number', $student_number)->first();
