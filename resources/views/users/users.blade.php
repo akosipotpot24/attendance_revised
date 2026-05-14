@@ -1,0 +1,48 @@
+<x-layout>
+<div class="flex-grow-1 p-4">
+        <div class="container mt-3 position-relative" style="min-height: 400px;">
+        
+        <div class="card mb-4">
+            
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Users</h4>
+                <a href="/users/approval" class="btn btn-sm btn-light border">Pending Users</a>
+            </div>
+            <div class="card-body">
+                
+                <table id="approvals" class="table table-bordered table-striped table-hover align-middle">
+                    
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Username</th>
+                            <th>Fullname</th>
+                            <th>Email Address</th>
+                            <th>Status</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->fullname }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                @if($user->status == 1)
+                                    Approved
+                                @else
+                                    Pending
+                                @endif
+                            </td>
+
+                           
+                           
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+         </div>
+     </div>
+</x-layout>

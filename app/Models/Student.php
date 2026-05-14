@@ -12,8 +12,7 @@ class Student extends Model
     'firstname',
     'middlename',
     'lastname',
-    'school_role',
-    'library_branch',
+    
     'section',
     'student_number',
     'avatar'

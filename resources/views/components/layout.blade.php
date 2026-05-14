@@ -266,7 +266,7 @@
             </button>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="/records">Audit Trails</a>
-                <a class="dropdown-item" href="/users">Users Approval</a>
+                <a class="dropdown-item" href="/users/">Users Lists</a>
                 <a class="dropdown-item" href="/sections">Section</a>
                 <a class="dropdown-item" href="/library-visits">Library Visits</a>
             </div>

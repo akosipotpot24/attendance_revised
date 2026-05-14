@@ -4,8 +4,9 @@
         
         <div class="card mb-4">
             
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Pending Approvals</h4>
+                <a href="{{ url()->previous() }}" class="btn btn-sm btn-light border">← Back</a>
             </div>
             <div class="card-body">
                 
@@ -21,13 +22,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
+                        @foreach ($approves as $approve)
                         <tr>
-                            <td>{{ $user->username }}</td>
-                            <td>{{ $user->fullname }}</td>
-                            <td>{{ $user->email }}</td>
+                            <td>{{ $approve->approvename }}</td>
+                            <td>{{ $approve->fullname }}</td>
+                            <td>{{ $approve->email }}</td>
                             <td>
-                                @if($user->status == 1)
+                                @if($approve->status == 1)
                                     Approved
                                 @else
                                     Pending
@@ -36,13 +37,13 @@
 
                             <td class="text-center">
                                 <div class="d-inline-flex gap-2">
-                                  <form action="/user/decline/{{ $user->id }}" method="POST">
+                                  <form action="/approve/decline/{{ $approve->id }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <button class="btn btn-sm btn-warning">Decline</button>
                                     </form>
 
-                                    <form action="/user/approve/{{ $user->id }}" method="POST">
+                                    <form action="/user/approve/{{ $approve->id }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <button class="btn btn-sm btn-success">Approve</button>

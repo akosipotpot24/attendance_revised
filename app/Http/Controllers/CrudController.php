@@ -88,7 +88,7 @@ class CrudController extends Controller
             'middlename' => '',
             'lastname' => 'required',
             'school_role' => 'required',
-            'library_branch' => 'required',
+
             'section' => 'required',
             'student_number' => 'required',
             'avatar' => 'image|max:8000|nullable'
@@ -240,8 +240,10 @@ class CrudController extends Controller
     }
 
     public function viewstudents(){
-       $students = Student::all();
-        return view('crud/dashboard' ,compact('students'));
+       $students = Student::where('school_role','student')->get();
+       $teachers= Student::where('school_role','faculty')->get();
+       $workers = Student::where('school_role','non-teaching')->get();
+        return view('crud/dashboard' ,compact('students','teachers','workers'));
     }
     public function records(){
        $records = ActivityLog::all();
@@ -250,11 +252,17 @@ class CrudController extends Controller
     }
 
     public function edit($student){
-        $student = Student::where('student_number', $student)->first();
-        $sections = Section::all();
-        return view('crud/edit', compact('student','sections'));
-    }
-
+    $student = Student::where('student_number', $student)->first();
+    $sections = Section::orderBy('grade_level_code')->orderBy('section')->get();
+    $sectionsJson = $sections->map(function($s) {
+        return [
+            'value'      => $s->grade_level_code . ' - ' . $s->section,
+            'label'      => $s->grade_level_code . ' - ' . $s->section,
+            'grade_code' => $s->grade_level_code,
+        ];
+    });
+    return view('crud/edit', compact('student', 'sections', 'sectionsJson'));
+}
     public function newUser(){
         $sections = Section::all();
         return view('crud/register', compact ('sections'));

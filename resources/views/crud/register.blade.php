@@ -39,7 +39,7 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
                             <label class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">School Role</label>
-                            <select name="school_role" class="form-select form-select-sm">
+                            <select id="school_role" name="school_role" class="form-select form-select-sm">
                                 <option value="" disabled selected>Select role</option>
                                 <option value="faculty">Faculty</option>
                                 <option value="student">Student</option>
@@ -56,9 +56,10 @@
                                 <option value="cllrc">College</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Section</label>
-                            <select name="section" class="form-select form-select-sm">
+                        <div class="col-md-3" id="col-section">
+                            <label id="label-section" class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Section</label>
+                            <select id="select-section" name="section" class="form-select form-select-sm">
+                                {{-- Default: student sections from DB --}}
                                 @foreach($sections as $section)
                                 <option value="{{ $section->grade_level_code }} - {{ $section->section }}">
                                     {{ $section->grade_level_code }} - {{ $section->section }}
@@ -67,8 +68,8 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Student Number</label>
-                            <input type="text" class="form-control form-control-sm" name="student_number">
+                            <label id="label-id" class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Student Number</label>
+                            <input type="text" id="input-id" class="form-control form-control-sm" name="student_number" placeholder="">
                         </div>
                     </div>
 
@@ -86,5 +87,94 @@
         </div>
 
     </div>
+
+    <script>
+        const roleConfig = {
+            student: {
+                sectionLabel: 'Section',
+                sectionOptions: null, // uses DB-seeded options (kept on page)
+                idLabel: 'Student Number',
+                idName: 'student_number',
+                idPlaceholder: 'e.g. 2024-00123'
+            },
+            faculty: {
+                sectionLabel: 'Department',
+                sectionOptions: [
+                    { value: 'pre-school-dept', label: 'Pre-School Dept.' },
+                    { value: 'grade-school-dept', label: 'Grade School Dept.' },
+                    { value: 'jhs-dept', label: 'Junior High School Dept.' },
+                    { value: 'shs-dept', label: 'Senior High School Dept.' },
+                    { value: 'college-of-engineering', label: 'College of Engineering' },
+                    { value: 'college-of-business', label: 'College of Business' },
+                    { value: 'college-of-nursing', label: 'College of Nursing' },
+                    { value: 'college-of-education', label: 'College of Education' },
+                    { value: 'college-of-arts-sciences', label: 'College of Arts & Sciences' },
+                    { value: 'college-of-law', label: 'College of Law' },
+                    { value: 'graduate-school', label: 'Graduate School' },
+                ],
+                idLabel: 'Employee Number',
+                idName: 'employee_number',
+                idPlaceholder: 'e.g. EMP-2019-004'
+            },
+            'non-teaching': {
+                sectionLabel: 'Position',
+                sectionOptions: [
+                    { value: 'registrar', label: 'Registrar' },
+                    { value: 'librarian', label: 'Librarian' },
+                    { value: 'guidance-counselor', label: 'Guidance Counselor' },
+                    { value: 'school-nurse', label: 'School Nurse' },
+                    { value: 'cashier-accounting', label: 'Cashier / Accounting Staff' },
+                    { value: 'it-support', label: 'IT Support Specialist' },
+                    { value: 'maintenance', label: 'Maintenance Staff' },
+                    { value: 'security', label: 'Security Personnel' },
+                    { value: 'admin-assistant', label: 'Administrative Assistant' },
+                    { value: 'hr-officer', label: 'Human Resources Officer' },
+                    { value: 'admissions-officer', label: 'Admissions Officer' },
+                    { value: 'canteen-staff', label: 'Canteen Staff' },
+                    { value: 'janitor-custodian', label: 'Janitor / Custodian' },
+                    { value: 'driver', label: 'Driver' },
+                ],
+                idLabel: 'Employee Number',
+                idName: 'employee_number',
+                idPlaceholder: 'e.g. EMP-2020-017'
+            }
+        };
+
+        // Store the original DB-seeded section options
+        const defaultSectionHTML = document.getElementById('select-section').innerHTML;
+
+        document.getElementById('school_role').addEventListener('change', function () {
+            const role = this.value;
+            const cfg = roleConfig[role];
+            if (!cfg) return;
+
+            const labelSection = document.getElementById('label-section');
+            const selectSection = document.getElementById('select-section');
+            const labelId = document.getElementById('label-id');
+            const inputId = document.getElementById('input-id');
+
+            // Update section/position label
+            labelSection.textContent = cfg.sectionLabel;
+
+            // Update section/position options
+            if (cfg.sectionOptions === null) {
+                // Student: restore original DB options
+                selectSection.innerHTML = defaultSectionHTML;
+                selectSection.name = 'section';
+            } else {
+                let html = `<option value="" disabled selected>Select ${cfg.sectionLabel.toLowerCase()}</option>`;
+                cfg.sectionOptions.forEach(opt => {
+                    html += `<option value="${opt.value}">${opt.label}</option>`;
+                });
+                selectSection.innerHTML = html;
+                selectSection.name = role === 'faculty' ? 'department' : 'position';
+            }
+
+            // Update ID field
+            labelId.textContent = cfg.idLabel;
+            inputId.name = cfg.idName;
+            inputId.placeholder = cfg.idPlaceholder;
+        });
+    </script>
 
 </x-layout>

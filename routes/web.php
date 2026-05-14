@@ -61,6 +61,7 @@ Route::delete('/sections/{id}', [SectionController::class, 'destroySection']);
 
 //user approvals
 Route::get('/users', [UserController::class, 'viewUsers'])->middleware('admin');
+Route::get('/users/approval', [UserController::class, 'viewAprrovals'])->middleware('admin');
 Route::put('/user/approve/{id}', [UserController::class, 'approveUser']);
 Route::put('/user/decline/{id}', [UserController::class, 'declineUser']);
 
