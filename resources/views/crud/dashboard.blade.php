@@ -101,8 +101,8 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h5 class="mb-0 fw-500">Students</h5>
-                        <small class="text-muted">Manage registered students</small>
+                        <h5 class="mb-0 fw-500">Faculty Members</h5>
+                        <small class="text-muted">Manage registeres teachers</small>
                     </div>
                     <a href="/scan" class="btn btn-sm btn-dark">
                         <i class="fa-solid fa-barcode me-1"></i> Scan ID
@@ -187,8 +187,8 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h5 class="mb-0 fw-500">Students</h5>
-                        <small class="text-muted">Manage registered students</small>
+                        <h5 class="mb-0 fw-500">Non Teaching Personnels</h5>
+                        <small class="text-muted">Manage Users</small>
                     </div>
                     <a href="/scan" class="btn btn-sm btn-dark">
                         <i class="fa-solid fa-barcode me-1"></i> Scan ID

@@ -24,7 +24,7 @@
                     <tbody>
                         @foreach ($approves as $approve)
                         <tr>
-                            <td>{{ $approve->approvename }}</td>
+                            <td>{{ $approve->username }}</td>
                             <td>{{ $approve->fullname }}</td>
                             <td>{{ $approve->email }}</td>
                             <td>
