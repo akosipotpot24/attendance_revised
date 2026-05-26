@@ -20,20 +20,21 @@
                     @csrf
                     @method('PUT')
 
-                    {{-- Avatar 
+                    <input type="hidden" name="id" value="{{ $users->id }}">
+                    Avatar 
                     <div class="text-center mb-4">
-                        <img src="/storage/avatars/{{ $student->avatar ?? 'default.png' }}"
+                        <img src="/storage/userAvatar/{{ $users->avatar ?? 'default.png' }}"
                              class="rounded-circle"
                              width="80" height="80"
                              style="object-fit:cover; border: 1px solid #e8e8e6;"
                              alt="Profile">
-                    </div>--}}
+                    </div>
 
                     {{-- Name Row --}}
                     <div class="row g-3 mb-3">
                         <div class="col-md-4">
                             <label class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Full Name</label>
-                            <input type="text" class="form-control form-control-sm" name="firstname" value="{{ $users->fullname }}">
+                            <input type="text" class="form-control form-control-sm" name="fullname" value="{{ $users->fullname }}">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Email Adress</label>
@@ -44,16 +45,17 @@
 
                     {{-- Details Row --}}
                     <div class="row g-3 mb-3">
-                        <div class="col-md-3">
+                        {{-- <div class="col-md-3">
                             <label class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">User Type</label>
                             <input type="text" class="form-control form-control-sm" name="user_type" value="{{ $users->user_type }}">
-                        </div>
+                        </div> --}}
                       
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                        
-                       
+                       <label class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Change Avatar</label>
+                            <input type="file" name="avatar" class="form-control form-control-sm">
                         
-                    </div>
+                       </div>
 
                     <hr style="border-color: #e8e8e6;">
 

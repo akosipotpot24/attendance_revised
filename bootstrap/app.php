@@ -15,9 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
          $middleware->alias([
-        'authenticate' => authenticate::class,
-       'admin' => admin::class,
-       'scanner' => scan::class
+        'authenticate' => \App\Http\Middleware\authenticate::class,
+       'admin' => \App\Http\Middleware\admin::class,
+       'scanner' => \App\Http\Middleware\Scan::class,
     ]);
     })
     

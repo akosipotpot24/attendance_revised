@@ -16,7 +16,7 @@
                     </a>
                 </div>
 
-                <form action="/crud/update/{{ $student->student_number }}" method="POST" enctype="multipart/form-data">
+                <form action="/crud/update/{{ $student->id_number }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -56,17 +56,19 @@
                                 <option value="non-teaching" {{ $student->school_role == 'non-teaching' ? 'selected' : '' }}>Non-Teaching</option>
                             </select>
                         </div>
-                      
+
                         <div class="col-md-3">
                             <label id="label-section" class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Section</label>
                             <select id="select-section" name="section" class="form-select form-select-sm">
                                 {{-- Populated by JS on load --}}
                             </select>
                         </div>
+
                         <div class="col-md-3">
                             <label id="label-id" class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">ID Number</label>
-                            <input type="text" class="form-control form-control-sm" name="student_number" value="{{ $student->student_number }}">
+                            <input type="text" class="form-control form-control-sm" name="id_number" value="{{ $student->id_number }}">
                         </div>
+
                         <div class="col-md-6">
                             <label class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Change Avatar</label>
                             <input type="file" name="avatar" class="form-control form-control-sm">
@@ -90,13 +92,6 @@
 
     <script>
         const allSections = @json($sectionsJson);
-
-        const branchCodes = {
-            pslrc: function(code) { return code === 'Kinder'; },
-            gslrc: function(code) { return ['1','2','3','4','5','6'].includes(code); },
-            hslrc: function(code) { return ['7','8','9','10','11','12'].includes(code); },
-            cllrc: function(code) { return !['Kinder','1','2','3','4','5','6','7','8','9','10','11','12'].includes(code); },
-        };
 
         const facultyOptions = [
             { value: 'pre-school-dept',         label: 'Pre-School Dept.' },
@@ -130,34 +125,33 @@
         ];
 
         const currentRole    = '{{ $student->school_role }}';
-        const currentBranch  = '{{ $student->library_branch }}';
         const currentSection = '{{ $student->section }}';
 
-        function populateSection(role, branch, restoreValue) {
+        function populateSection(role, restoreValue) {
             var labelSection  = document.getElementById('label-section');
             var selectSection = document.getElementById('select-section');
-            var labelId       = document.getElementById('label-id');
+           
 
             var options     = [];
             var placeholder = 'Select section';
 
             if (role === 'faculty') {
                 labelSection.textContent = 'Department';
-                labelId.textContent      = 'Employee Number';
+                
                 options                  = facultyOptions;
                 placeholder              = 'Select department';
 
             } else if (role === 'non-teaching') {
                 labelSection.textContent = 'Position';
-                labelId.textContent      = 'Employee Number';
+                
                 options                  = nonTeachingOptions;
                 placeholder              = 'Select position';
 
             } else {
+                // student — show all sections from DB
                 labelSection.textContent = 'Section';
-                labelId.textContent      = 'ID Number';
-                var filter = branchCodes[branch];
-                options    = filter ? allSections.filter(function(s) { return filter(s.grade_code); }) : allSections;
+                
+                options = allSections;
                 placeholder = 'Select section';
             }
 
@@ -170,18 +164,11 @@
         }
 
         // On page load: restore saved values
-        populateSection(currentRole, currentBranch, currentSection);
+        populateSection(currentRole, currentSection);
 
         // On role change
         document.getElementById('school_role').addEventListener('change', function() {
-            var branch = document.getElementById('library_branch').value;
-            populateSection(this.value, branch, '');
-        });
-
-        // On branch change
-        document.getElementById('library_branch').addEventListener('change', function() {
-            var role = document.getElementById('school_role').value;
-            populateSection(role, this.value, '');
+            populateSection(this.value, '');  // ✅ already correct, resets to empty
         });
     </script>
 

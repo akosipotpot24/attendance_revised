@@ -17,7 +17,7 @@
                             <th>Username</th>
                             <th>Fullname</th>
                             <th>Email Address</th>
-                            <th>Status</th>
+                         
                             
                         </tr>
                     </thead>
@@ -27,14 +27,7 @@
                             <td>{{ $user->username }}</td>
                             <td>{{ $user->fullname }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>
-                                @if($user->status == 1)
-                                    Approved
-                                @else
-                                    Pending
-                                @endif
-                            </td>
-
+                            
                            
                            
                         </tr>

@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
@@ -59,6 +56,8 @@
             border: 1px solid #e8e8e6;
             border-radius: 8px;
             padding: 5px 12px;
+            background: none;
+            cursor: pointer;
             transition: background 0.15s;
         }
 
@@ -140,7 +139,6 @@
         .result-area { display: none; }
         .result-area.show { display: block; }
 
-        /* Loading */
         .spinner-row {
             display: flex;
             justify-content: center;
@@ -158,7 +156,6 @@
             animation: spin 0.7s linear infinite;
         }
 
-        /* Student row */
         .student-row {
             display: flex;
             align-items: center;
@@ -212,7 +209,6 @@
         .badge-in  { background: #e8f5e9; color: #2e7d32; }
         .badge-out { background: #e3f2fd; color: #1565c0; }
 
-        /* Error row */
         .error-row {
             display: flex;
             align-items: center;
@@ -231,10 +227,15 @@
 <div class="scan-card">
 
     <div class="top-bar">
-        <span class="lib-label">Library</span>
-        <a href="/viewStudents" class="back-btn">
-            <i class="bi bi-arrow-left"></i> Back
-        </a>
+        <span class="lib-label">Library System</span>
+        <form method="POST" action="/logout">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="back-btn">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </button>
+        </form>
     </div>
 
     <div class="icon-area">
@@ -304,10 +305,10 @@ function showStudent(data) {
     errorRow.style.display = 'none';
 
     const name = data.firstname + ' ' + data.lastname;
-    const initials = (data.firstname[0] + data.lastname[0]).toUpperCase();
+    const initials = ((data.firstname?.[0] ?? '') + (data.lastname?.[0] ?? '')).toUpperCase();
 
     studentNameEl.textContent = name;
-    studentIdEl.textContent = data.student_number;
+    studentIdEl.textContent = data.id_number;
 
     if (data.avatar) {
         avatarEl.innerHTML = `<img src="/storage/avatars/${data.avatar}" alt="${name}">`;
@@ -342,7 +343,10 @@ input.addEventListener('keydown', function(e) {
         showLoading();
 
         fetch(`/scan/${value}`)
-            .then(r => r.json())
+            .then(r => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                return r.json();
+            })
             .then(data => {
                 if (data.success) {
                     showStudent(data);
@@ -351,8 +355,8 @@ input.addEventListener('keydown', function(e) {
                 }
                 setTimeout(reset, 3000);
             })
-            .catch(() => {
-                showError('Connection error');
+            .catch((err) => {
+                showError(err.message);
                 setTimeout(reset, 3000);
             });
     }

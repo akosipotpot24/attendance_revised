@@ -15,6 +15,17 @@ class scan
      */
     public function handle(Request $request, Closure $next): Response
     {
+         if (!auth()->check()) {
+        return redirect('/');
+}
+
+        $user = auth()->user();
+
+        // Allow only user_type 4 (Scanner) AND must be active
+        if ($user->user_type !== 4 || $user->status !== 1) {
+            return redirect('/scan')->with('error', 'Unauthorized access. This account is for Scanner profiles only.');
+        }
+
         return $next($request);
     }
 }

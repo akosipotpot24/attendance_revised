@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Events\StudentUpdated;
+use App\Events\UserEvent;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,52 +13,47 @@ class UserController extends Controller
 {
     //
 
-    public function update(Request $req, $student_number){
+    public function update(Request $req, $id){
         $values=$req->validate([
-            'firstname' => 'required',
-            'middlename' => '',
-            'lastname' => 'required',
-            'school_role' => 'required',
-
-            'section' => 'required',
-            'student_number' => 'required',
+            'id' => 'required',
+            'fullname' => 'required',
+            'email' => 'email|nullable',
             'avatar' => 'image|max:8000|nullable'
         ]);
 
   
       if ($req->hasFile('avatar')) {
 
-        $filename = $values['student_number'] . uniqid() . ".jpg";
-        $oldavatar = Student::where('student_number', $student_number)->value('avatar');
+        $filename = $values['id'] . uniqid() . ".jpg";
+        $oldavatar = User::where('id', $id)->value('avatar');
         $manager = new ImageManager(new Driver());
         $image = $manager->read($req->file("avatar"));
         $imgData = $image->cover(400, 400)->toJpg();
-        Storage::disk('public')->put('avatars/' . $filename, $imgData);
+        Storage::disk('public')->put('userAvatar/' . $filename, $imgData);
         $values['avatar'] = $filename;
 
          if ($oldavatar && $oldavatar !== 'default.png') {
-            Storage::disk('public')->delete('avatars/' . $oldavatar);
+            Storage::disk('public')->delete('userAvatar/' . $oldavatar);
         }
     }
         
-        // Student::where('student_number', $student_number)->update($values);
-        $student = Student::where('student_number', $student_number)->first();  
-        $original = $student->getOriginal();
-        $student->update($values);
-        $changes = [];
+        // Student::where('id_number', $id)->update($values);
+             $user = User::where('id', $id)->first();  
+            $user->fill($values);
 
-        foreach ($values as $field => $newValue) {
-            if (isset($original[$field]) && $original[$field] != $newValue) {
-                $changes[$field] = [
-                    'old' => $original[$field],
-                    'new' => $newValue
-                ];
-            }
+        $changes = [];
+        foreach ($user->getDirty() as $field => $newValue) {
+            $changes[$field] = [
+                'old' => $user->getOriginal($field),
+                'new' => $newValue
+            ];
         }
 
-        event(new StudentUpdated($student, auth()->user() ,$changes));
+        $user->save();
 
-        return redirect('/crud/edit/' . $student_number)->with('success', 'Student updated successfully!');
+        event(new UserEvent(auth()->user(), $changes));
+
+        return redirect('/users/edit/'.$id)->with('success', 'updated successfully!');
     }
 
 
@@ -64,10 +61,10 @@ class UserController extends Controller
 
 
 
-    public function viewUsers(){
-       $users =  User::all();
-       return view('users.users', compact('users'));
-    }
+        public function viewUsers(){
+        $users =  User::where('status',1)->get();
+        return view('users.users', compact('users'));
+        }
 
     public function edit($id){
         $users = User::findOrFail($id);;

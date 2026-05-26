@@ -27,19 +27,19 @@ class CrudController extends Controller
     }
 
 
-    public function scan($student_number)
+    public function scan($id_number)
 {
-    $student = Student::where('student_number', $student_number)->first();
+    $student = Student::where('id_number', $id_number)->first();
 
     if ($student) {
       
         $today = now()->toDateString();
 
       
-        $lastAttendance = Attendance::where('student_number', $student_number)
-            ->whereDate('attendance_date', $today)
-            ->orderBy('attendance_date', 'desc')
-            ->first();
+       $lastAttendance = Attendance::where('id_number', $id_number)
+        ->whereDate('attendance_date', $today)
+        ->orderBy('attendance_date', 'desc')
+        ->first();
 
         
         $punchType = 'in'; 
@@ -49,7 +49,7 @@ class CrudController extends Controller
 
         
         Attendance::create([
-            'student_number' => $student->student_number,
+            'id_number' => $student->id_number,
             'student_name' => $student->firstname . ' ' . $student->middlename . ' ' . $student->lastname,
             'library_location' => $student->library_branch,
             'grade_level' => $student->section,
@@ -60,7 +60,7 @@ class CrudController extends Controller
         return response()->json([
             'success' => true,
             'punch_type' => $punchType,
-            'student_number' => $student->student_number,
+            'id_number' => $student->id_number,
             'fullname' => $student->firstname . ' ' . $student->lastname,
             'firstname' => $student->firstname,
             'middlename' => $student->middlename,
@@ -77,28 +77,27 @@ class CrudController extends Controller
 }
 
   
-    public function destroy($student_number){
-        Student::where('student_number', $student_number)->delete();
+    public function destroy($id_number){
+        Student::where('id_number', $id_number)->delete();
         return redirect('/viewStudents')->with('success', 'Student deleted successfully!');
     }
 
-    public function update(Request $req, $student_number){
+    public function update(Request $req, $id){
         $values=$req->validate([
             'firstname' => 'required',
             'middlename' => '',
             'lastname' => 'required',
             'school_role' => 'required',
-
-            'section' => 'required',
-            'student_number' => 'required',
+            'section' => 'nullable',
+            'id_number' => 'required',
             'avatar' => 'image|max:8000|nullable'
         ]);
 
   
       if ($req->hasFile('avatar')) {
 
-        $filename = $values['student_number'] . uniqid() . ".jpg";
-        $oldavatar = Student::where('student_number', $student_number)->value('avatar');
+        $filename = $values['id_number'] . uniqid() . ".jpg";
+        $oldavatar = Student::where('id_number', $id_number)->value('avatar');
         $manager = new ImageManager(new Driver());
         $image = $manager->read($req->file("avatar"));
         $imgData = $image->cover(400, 400)->toJpg();
@@ -110,8 +109,8 @@ class CrudController extends Controller
         }
     }
         
-        // Student::where('student_number', $student_number)->update($values);
-        $student = Student::where('student_number', $student_number)->first();  
+        // Student::where('id_number', $id_number)->update($values);
+        $student = Student::where('id_number', $id_number)->first();  
         $original = $student->getOriginal();
         $student->update($values);
         $changes = [];
@@ -127,7 +126,7 @@ class CrudController extends Controller
 
         event(new StudentUpdated($student, auth()->user() ,$changes));
 
-        return redirect('/crud/edit/' . $student_number)->with('success', 'Student updated successfully!');
+        return redirect('/crud/edit/' . $id_number)->with('success', 'Student updated successfully!');
     }
 
      public function logout(){
@@ -229,7 +228,7 @@ class CrudController extends Controller
             'school_role' => 'required',
             'library_branch' => 'required',
             'section' => 'required',
-            'student_number' => 'required'
+            'id_number' => 'required'
 
         ]);
 
@@ -252,7 +251,7 @@ class CrudController extends Controller
     }
 
     public function edit($student){
-    $student = Student::where('student_number', $student)->first();
+    $student = Student::where('id_number', $student)->first();
     $sections = Section::orderBy('grade_level_code')->orderBy('section')->get();
     $sectionsJson = $sections->map(function($s) {
         return [

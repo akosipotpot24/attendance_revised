@@ -12,8 +12,8 @@ class Student extends Model
     'firstname',
     'middlename',
     'lastname',
-    
     'section',
+    'school_role',
     'student_number',
     'avatar'
 ];

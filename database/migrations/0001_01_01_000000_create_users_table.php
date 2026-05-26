@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('user_type');
             $table->tinyInteger('status')->default(0);
+            $table->string('avatar');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

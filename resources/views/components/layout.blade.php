@@ -353,7 +353,7 @@
     </a>
 
     @auth
-
+    @if(auth()->user()->user_type = 2)
         {{-- Registration dropdown --}}
         <div class="nav-item">
             <button class="nav-btn" id="btn-reg">
@@ -366,7 +366,7 @@
                 <span class="dp-label">Enroll</span>
                 <a class="dp-item" href="{{ url('/register-crud') }}">
                     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-                    Student Registration
+                    Personnel Registration
                 </a>
                 <div class="dp-divider"></div>
                 <span class="dp-label">By level</span>
@@ -385,14 +385,11 @@
             </div>
         </div>
 
-        {{-- Students --}}
-        <a href="/viewStudents" class="nav-btn">
-            <!-- users icon -->
-            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            Students
-        </a>
 
-        @if(auth()->user()->user_type >= 2)
+
+        {{-- Students --}}
+       
+
         {{-- Admin dropdown --}}
         <div class="nav-item">
             <button class="nav-btn" id="btn-admin">
@@ -409,6 +406,10 @@
                 <a class="dp-item" href="/users/">
                     <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     User Lists
+                </a>
+                <a class="dp-item" href="/viewStudents">
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Patron List
                 </a>
                 <a class="dp-item" href="/sections">
                     <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -427,7 +428,11 @@
         {{-- Settings / Account dropdown --}}
         <div class="nav-item">
             <button class="avatar-btn" id="btn-settings" title="Account">
-                {{-- Initials from the user's name --}}
+                <img src="/storage/userAvatar/{{ auth()->user()->avatar ?? 'default.png' }}"
+                             class="rounded-circle"
+                             width="35" height="35"
+                             style="object-fit:cover; border: 1px solid #e8e8e6;"
+                             alt="Profile">
                 {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
             </button>
             <div class="dropdown-panel right" id="settings-menu">
@@ -504,6 +509,16 @@ $(document).ready(function () {
     });
 
     $('#mytable').DataTable({
+        pageLength: 10,
+        responsive: true
+    });
+
+     $('#workers').DataTable({
+        pageLength: 10,
+        responsive: true
+    });
+
+     $('#faculty').DataTable({
         pageLength: 10,
         responsive: true
     });
