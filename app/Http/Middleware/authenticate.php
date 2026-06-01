@@ -16,7 +16,7 @@ class authenticate
     public function handle(Request $request, Closure $next): Response
     {
          if (!auth()->check()) {
-        return redirect('/');
+        return redirect('/project');
     }
         return $next($request);   
     }

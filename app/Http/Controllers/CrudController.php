@@ -23,7 +23,7 @@ class CrudController extends Controller
     public function libraryVisits()
     {
         $visits = Attendance::all();
-        return view('crud/library_visits', compact('visits'));
+        return view('crud.library_visits', compact('visits'));
     }
 
 
@@ -97,7 +97,7 @@ class CrudController extends Controller
       if ($req->hasFile('avatar')) {
 
         $filename = $values['id_number'] . uniqid() . ".jpg";
-        $oldavatar = Student::where('id_number', $id_number)->value('avatar');
+        $oldavatar = Student::where('id_number', $id)->value('avatar');
         $manager = new ImageManager(new Driver());
         $image = $manager->read($req->file("avatar"));
         $imgData = $image->cover(400, 400)->toJpg();
@@ -110,7 +110,7 @@ class CrudController extends Controller
     }
         
         // Student::where('id_number', $id_number)->update($values);
-        $student = Student::where('id_number', $id_number)->first();  
+        $student = Student::where('id_number', $id)->first();  
         $original = $student->getOriginal();
         $student->update($values);
         $changes = [];
@@ -126,7 +126,7 @@ class CrudController extends Controller
 
         event(new StudentUpdated($student, auth()->user() ,$changes));
 
-        return redirect('/crud/edit/' . $id_number)->with('success', 'Student updated successfully!');
+        return redirect('/crud/edit/' . $id)->with('success', 'Student updated successfully!');
     }
 
      public function logout(){
@@ -137,7 +137,7 @@ class CrudController extends Controller
             'User logged out'
         ));
         auth()->logout();
-        return redirect('/')->with('logout', 'You are Logged Out');
+        return redirect('/project')->with('logout', 'You are Logged Out');
     }
 
     public function login(Request $req, User $user){
@@ -242,12 +242,12 @@ class CrudController extends Controller
        $students = Student::where('school_role','student')->get();
        $teachers= Student::where('school_role','faculty')->get();
        $workers = Student::where('school_role','non-teaching')->get();
-        return view('crud/dashboard' ,compact('students','teachers','workers'));
+        return view('crud.dashboard' ,compact('students','teachers','workers'));
     }
     public function records(){
        $records = ActivityLog::all();
        $auditTrails = AuditTrail::all();
-        return view('crud/AuditTrails' ,compact('records','auditTrails'));
+        return view('crud.AuditTrails' ,compact('records','auditTrails'));
     }
 
     public function edit($student){
@@ -260,11 +260,11 @@ class CrudController extends Controller
             'grade_code' => $s->grade_level_code,
         ];
     });
-    return view('crud/edit', compact('student', 'sections', 'sectionsJson'));
+    return view('crud.edit', compact('student', 'sections', 'sectionsJson'));
 }
     public function newUser(){
         $sections = Section::all();
-        return view('crud/register', compact ('sections'));
+        return view('crud.register', compact ('sections'));
     }
 
 }
