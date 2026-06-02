@@ -151,6 +151,29 @@
         }
 
         .register-link a:hover { text-decoration: underline; }
+
+
+                .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        }
+
+        .field-input {
+        width: 100%;
+        padding-right: 40px; /* make room for the icon */
+        }
+
+        .toggle-password {
+        position: absolute;
+        right: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 0;
+        color: #888;
+        }
     </style>
 </head>
 <body>
@@ -191,8 +214,13 @@
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="password">Password</label>
+                <label class="field-label" for="password">Password</label>
+                <div class="input-wrapper">
                     <input class="field-input" type="password" id="password" name="password" placeholder="Enter password">
+                    <button type="button" class="toggle-password" onclick="togglePassword()">
+                    👁️
+                    </button>
+                </div>
                 </div>
 
                 <button type="submit" class="btn-login">Sign in</button>
@@ -207,7 +235,18 @@
         </div>
 
     </div>
+    <script>function togglePassword() {
+  const input = document.getElementById('password');
+  const btn = document.querySelector('.toggle-password');
 
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = '🙈'; // or a "hide" icon
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁️';
+  }
+}</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

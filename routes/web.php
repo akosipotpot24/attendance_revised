@@ -101,3 +101,10 @@ Route::get('/24', [SectionController::class, 'scanning'])->middleware('admin');
 Route::get('/library-visits', [CrudController::class, 'libraryVisits'])->middleware('admin');
 
 //users
+
+
+//reset password
+Route::get('/password_reset', function () {
+    return view('users.password');
+})->name('reset_password');
+Route::post('/password/reset',[UserController::class, 'password_reset']);
