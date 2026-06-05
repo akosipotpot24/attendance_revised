@@ -16,8 +16,9 @@ class admin
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->check()) {
-        return redirect('/');
+        return redirect('/project');
     }
+   
 
     $user = auth()->user();
 

@@ -239,7 +239,7 @@
             </form>
 
             <p class="login-link">
-                Already have an account? <a href="/">Sign in</a>
+                Already have an account? <a href="/project">Sign in</a>
             </p>
 
         </div>

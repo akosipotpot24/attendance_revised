@@ -5,13 +5,87 @@ use App\Events\StudentUpdated;
 use App\Events\UserEvent;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\Rules\Password as PasswordRules;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
     //
+
+            public function resetPassword(Request $request)
+            {
+                $request->validate([
+                    'token'    => 'required',
+                    'email'    => 'required|email',
+                    'password' => 'required|min:8|confirmed',
+                ]);
+
+                $status = Password::reset(
+                    $request->only('email', 'password', 'password_confirmation', 'token'),
+                    function (User $user, string $password) {
+                        $user->forceFill([
+                            'password' => Hash::make($password),
+                        ])->setRememberToken(Str::random(60));
+
+                        $user->save();
+
+                        
+                    }
+                );
+
+                return $status === Password::PASSWORD_RESET
+                    ? redirect()->route('attendance')->with('success', 'Password reset! You can now log in.')
+                    : back()->with('failed', __($status));
+            }
+
+
+              public function showResetForm(Request $request, string $token)
+                        {
+                            return view('users.forgotPasswordForm', [
+                                'token' => $token,
+                                'email' => $request->email,
+                            ]);
+                        }
+                public function sendResetLink(Request $request){
+                        $request->validate([
+                            'email' => 'required|email|exists:users,email',
+                        ]);
+
+                        $status = Password::sendResetLink(
+                            $request->only('email')
+                        );
+
+                        return $status === Password::RESET_LINK_SENT
+                            ? back()->with('success', 'Reset link sent! Please check your email.')
+                            : back()->with('failed', __($status))->withInput();
+                        }
+
+                public function showForm(){
+                    return view('users.forgot_password');
+                }
+
+
+                 public function password_reset(Request $req)
+                {
+                    $req->validate([
+                        'current_password' => ['required', 'current_password'],
+                        'password'         => ['required', 'confirmed', PasswordRules::min(8)],
+                    ], [
+                        'current_password.current_password' => 'The current password does not match our records.',
+                    ]);
+
+                    $req->user()->update([
+                        'password' => Hash::make($req->password),
+                    ]);
+
+                    return back()->with('success', 'Password updated successfully!');
+                }
+
 
     public function update(Request $req, $id){
         $values=$req->validate([

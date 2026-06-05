@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('login');
 
 
 Route::get('/project', function () {
@@ -106,5 +106,16 @@ Route::get('/library-visits', [CrudController::class, 'libraryVisits'])->middlew
 //reset password
 Route::get('/password_reset', function () {
     return view('users.password');
-})->name('reset_password');
-Route::post('/password/reset',[UserController::class, 'password_reset']);
+})->name('reset_password')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+   Route::patch('/password/reset',[UserController::class, 'password_reset']);
+});
+
+
+
+Route::get('/forgot-password', [UserController::class, 'showForm'])->name('password.request');
+Route::post('/forgot-password', [UserController::class, 'sendResetLink'])->name('password.email');
+
+Route::get('/reset-password/{token}', [UserController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.update');
