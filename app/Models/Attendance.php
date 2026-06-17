@@ -13,7 +13,8 @@ class Attendance extends Model
     'library_location',
     'attendance_date',
     'grade_level',
-    'status'
+    'status',
+    'created_at'
     
 ];
 }

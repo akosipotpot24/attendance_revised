@@ -20,6 +20,21 @@
                     @csrf
 
                     {{-- Name Row --}}
+
+                     @if (session()->has('success'))
+                    <div class="alert-minimal alert-success-minimal">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+
+                    {{-- Failed --}}
+                    @if (session()->has('error'))
+                    <div class="alert-minimal alert-danger-minimal">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+
+
                     <div class="row g-3 mb-3">
                         <div class="col-md-4">
                             <label class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">First Name</label>
@@ -69,7 +84,7 @@
                         </div>
                         <div class="col-md-3">
                             <label id="label-id" class="form-label text-muted" style="font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Student Number</label>
-                            <input type="text" id="input-id" class="form-control form-control-sm" name="student_number" placeholder="">
+                            <input type="text" id="input-id" class="form-control form-control-sm" name="id_number" placeholder="">
                         </div>
                     </div>
 
@@ -167,12 +182,12 @@
                     html += `<option value="${opt.value}">${opt.label}</option>`;
                 });
                 selectSection.innerHTML = html;
-                selectSection.name = role === 'faculty' ? 'department' : 'position';
+                
             }
 
             // Update ID field
             labelId.textContent = cfg.idLabel;
-            inputId.name = cfg.idName;
+            
             inputId.placeholder = cfg.idPlaceholder;
         });
     </script>

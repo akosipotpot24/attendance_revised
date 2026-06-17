@@ -220,23 +220,24 @@ class CrudController extends Controller
     }
 
 
-    public function register(Request $req){
-        $values= $req->validate([ 
-            'firstname' => 'required',
-            'middlename' => '',
-            'lastname' => 'required',
-            'school_role' => 'required',
-            'library_branch' => 'required',
-            'section' => 'required',
-            'id_number' => 'required'
+            public function register(Request $req)
+            {
+                $values = $req->validate([
+                    'firstname'      => 'required',
+                    'middlename'     => 'nullable',
+                    'lastname'       => 'required',
+                    'school_role'    => 'required',
+                    'library_branch' => 'required',
+                    'section'        => 'required',
+                    'id_number'      => 'required',
+                ]);
 
-        ]);
+                Student::create($values);
 
-        Student::create($values);
+                return redirect('/viewStudents')
+                    ->with('success', 'Student created successfully.');
+            }
 
-        return redirect('/viewStudents');
-
-    }
 
     public function viewstudents(){
        $students = Student::where('school_role','student')->get();

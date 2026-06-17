@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\CrudController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\admin;
 use App\Http\Middleware\scan;
@@ -94,14 +95,13 @@ Route::get('/users/edit/{id}',  [UserController::class, 'edit'])->middleware('ad
 Route::put('/users/update/{id}',  [UserController::class, 'update'])->middleware('admin');
 Route::put('/user/approve/{id}', [UserController::class, 'approveUser']);
 Route::put('/user/decline/{id}', [UserController::class, 'declineUser']);
-
-
-Route::get('/24', [SectionController::class, 'scanning'])->middleware('admin');
-
 Route::get('/library-visits', [CrudController::class, 'libraryVisits'])->middleware('admin');
 
 //users
-
+Route::get('/forgot-password', [UserController::class, 'showForm'])->name('password.request');
+Route::post('/forgot-password', [UserController::class, 'sendResetLink'])->name('password.email');
+Route::get('/reset-password/{token}', [UserController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.update');
 
 //reset password
 Route::get('/password_reset', function () {
@@ -113,9 +113,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
+//statistics
+Route::get('/statistics', function () {
+    return view('stats.index');
+})->name('statistics')->middleware('admin');
 
-Route::get('/forgot-password', [UserController::class, 'showForm'])->name('password.request');
-Route::post('/forgot-password', [UserController::class, 'sendResetLink'])->name('password.email');
+Route::get('/Getstatistics',[StatisticController::class, 'GetResults'])->name('check_statistics');
 
-Route::get('/reset-password/{token}', [UserController::class, 'showResetForm'])->name('password.reset');
-Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.update');
+
+

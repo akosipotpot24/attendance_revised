@@ -9,12 +9,13 @@ class Student extends Model
 {
     //
      protected $fillable = [
+    'id_number',
     'firstname',
     'middlename',
     'lastname',
-    'section',
     'school_role',
-    'student_number',
+    'library_branch',
+    'section',
     'avatar'
 ];
 

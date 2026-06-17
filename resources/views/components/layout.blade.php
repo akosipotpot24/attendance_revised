@@ -419,6 +419,24 @@
                     <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                     Library Visits
                 </a>
+
+                <a class="dp-item" href="{{ route('statistics') }}">
+                    <svg viewBox="0 0 576 512" style="fill:currentColor;stroke:none;">
+                        <path d="M160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h50.7L9.4 265.4c-12.5 12.5-12.5 32.8 0 45.3
+                        s32.8 12.5 45.3 0L256 109.3V160c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H160z
+                        M576 80c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48z
+                        M448 208c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48z
+                        M400 384c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48z
+                        m48 80c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48z
+                        m128 0c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48z
+                        M272 384c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48z
+                        m48 80c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48z
+                        M144 512c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48z
+                        M576 336c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48z
+                        m-48-80c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48z"/>
+                    </svg>
+                    Statistics 
+                </a>
             </div>
         </div>
         @endif
@@ -534,6 +552,20 @@ $(document).ready(function () {
         responsive: true,
         language: { searchPlaceholder: "Search..." },
         order: [[5, 'desc']]
+    });
+
+    $('#statsTable').DataTable({
+    pageLength: 10,
+    responsive: true,
+    language: { searchPlaceholder: "Search..." },
+    order: [[4, 'asc']] // sort by Attendance Date
+    });
+
+    $('#summaryTable').DataTable({
+        pageLength: 10,
+        responsive: true,
+        language: { searchPlaceholder: "Search..." },
+        order: [[1, 'asc']] // sort by Date
     });
 });
 </script>
