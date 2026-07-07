@@ -17,6 +17,7 @@
                             <th>Username</th>
                             <th>Fullname</th>
                             <th>Email Address</th>
+                          
                          
                             
                         </tr>
@@ -26,10 +27,22 @@
                         <tr>
                             <td>{{ $user->username }}</td>
                             <td>{{ $user->fullname }}</td>
-                            <td>{{ $user->email }}</td>
-                            
-                           
-                           
+                            <td class="d-flex justify-content-between align-items-center">
+                                <span>{{ $user->email }}</span>
+                                <span> 
+                                    @if($user->user_type == 1)
+                                    
+                                    <form action="{{route('makeAdmin', $user->id)}}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                    
+                                    <button class="btn btn-sm btn-outline-secondary">make admin</button>
+                                    </form>
+
+                                    @endif
+                                </span>
+                            </td>       
+                                             
                         </tr>
                         @endforeach
                     </tbody>

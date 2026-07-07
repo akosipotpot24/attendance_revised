@@ -102,6 +102,7 @@ Route::get('/forgot-password', [UserController::class, 'showForm'])->name('passw
 Route::post('/forgot-password', [UserController::class, 'sendResetLink'])->name('password.email');
 Route::get('/reset-password/{token}', [UserController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.update');
+Route::put('makeAdmin', [UserController::class, 'makeadmin'])->name('makeAdmin');
 
 //reset password
 Route::get('/password_reset', function () {

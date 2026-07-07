@@ -208,14 +208,14 @@ class CrudController extends Controller
           $values['status'] = 0;
           User::create($values);
 
-        return redirect('/')->with('success', 'User registered successfully! Please wait for administrator approval.');
+        return redirect('/project')->with('success', 'User registered successfully! Please wait for administrator approval.');
         }
         else{
           $values['user_type'] = 0;
           $values['status'] = 0;
           User::create($values);
 
-        return redirect('/')->with('success', 'User registered successfully! Please wait for administrator approval.');
+        return redirect('/project')->with('success', 'User registered successfully! Please wait for administrator approval.');
         }
     }
 

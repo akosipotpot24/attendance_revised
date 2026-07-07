@@ -211,7 +211,7 @@ footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-fa
     </div>
     <div class="hero-meta-item">
       <span class="hero-meta-label">GitHub</span>
-      <span class="hero-meta-value"><a href="https://github.com/akosipotpot24" target="_blank">@akosipotpot24</a></span>
+      <span class="hero-meta-value"><a href="https://github.com/fourthtongco" target="_blank">@fourthtongco</a></span>
     </div>
     <div class="hero-meta-item">
       <span class="hero-meta-label">LinkedIn</span>

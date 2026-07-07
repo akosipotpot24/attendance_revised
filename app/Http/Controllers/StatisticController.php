@@ -35,7 +35,7 @@ class StatisticController extends Controller
                 ->orderBy('attendance_date')
                 ->get();
  
-            // Derive per-date totals from $records (no extra query needed)
+            
             $summary = $records
                 ->groupBy('attendance_date')
                 ->map(fn($group) => $group->count());
