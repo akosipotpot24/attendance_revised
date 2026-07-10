@@ -78,7 +78,12 @@ class CrudController extends Controller
 
   
     public function destroy($id_number){
-        Student::where('id_number', $id_number)->delete();
+
+        $student =  Student::where('id_number', $id_number)->first();
+        if ($student && $student->avatar && $student->avatar !== 'default.png') {
+            Storage::disk('public')->delete('avatars/' . $student->avatar);
+        }
+        $student->delete();
         return redirect('/viewStudents')->with('success', 'Student deleted successfully!');
     }
 

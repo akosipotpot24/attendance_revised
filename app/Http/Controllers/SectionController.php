@@ -9,6 +9,15 @@ class SectionController extends Controller
 {
     //
 
+    public function destroySection($id)
+    {
+        $section = Section::findOrFail($id);
+        $section->delete();
+
+        return redirect()->back()->with('success', 'Section deleted successfully!');
+
+    }
+
        public function scanning()
     {
        
@@ -35,7 +44,7 @@ class SectionController extends Controller
         ]);
 
         Section::create($values);
-        return redirect('/sections')->with('success', 'Section created successfully!');
+        return redirect('/sections/create')->with('success', 'Section created successfully!');
     }
 
     

@@ -84,8 +84,8 @@ Route::get('/sections', [SectionController::class, 'viewSections'])->middleware(
 Route::get('/sections/create', [SectionController::class, 'createSection'])->middleware('admin');
 Route::post('/sections', [SectionController::class, 'storeSection']);
 Route::get('/sections/{id}/edit', [SectionController::class, 'editSection']);
-Route::put('/sections/{id}', [SectionController::class, 'updateSection']);
-Route::delete('/sections/{id}', [SectionController::class, 'destroySection']);
+Route::put('/sections/{id}', [SectionController::class, 'updateSection'])->name('UpdateSection');
+Route::delete('/sections/{id}', [SectionController::class, 'destroySection'])->name('RemoveSection');
 
 
 //user approvals
@@ -102,7 +102,7 @@ Route::get('/forgot-password', [UserController::class, 'showForm'])->name('passw
 Route::post('/forgot-password', [UserController::class, 'sendResetLink'])->name('password.email');
 Route::get('/reset-password/{token}', [UserController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.update');
-Route::put('makeAdmin', [UserController::class, 'makeadmin'])->name('makeAdmin');
+Route::put('/makeAdmin/{id}', [UserController::class, 'makeadmin'])->name('makeAdmin');
 
 //reset password
 Route::get('/password_reset', function () {

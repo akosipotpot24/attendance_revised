@@ -1,12 +1,28 @@
 <x-layout>
 
+
+
     <div class="container mt-4" style="max-width: 480px;">
 
         <div class="card border-0 shadow-sm rounded-3">
             <div class="card-body p-4">
 
                 {{-- Header --}}
+
+                    @if (session()->has('success'))
+                        <div class="alert-minimal alert-success-minimal">
+                            {{ session('success') }}
+                        </div>
+                        @endif
+
+                        {{-- Failed --}}
+                        @if (session()->has('failed'))
+                        <div class="alert-minimal alert-danger-minimal">
+                            {{ session('failed') }}
+                        </div>
+                        @endif
                 <div class="d-flex justify-content-between align-items-center mb-4">
+                      
                     <div>
                         <h5 class="mb-0 fw-500">Create Section</h5>
                         <small class="text-muted">Add a new grade level and section</small>

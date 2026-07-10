@@ -26,7 +26,22 @@
                         @foreach ($sections as $section)
                         <tr style="font-size: 14px;">
                             <td class="text-muted">{{ $section->grade_level_code }}</td>
-                            <td>{{ $section->section }}</td>
+                            <td class="d-flex justify-content-between align-items-center">
+                                 <span>{{ $section->section }}</span>
+                                    <div class="d-flex gap-2">
+                                        {{-- <form action="{{route('UpdateSection', $section->id)}}" method="POST">
+                                             @csrf
+                                             @method('PUT')
+                                             <button class="btn btn-sm btn-outline-primary">Update</button>
+                                        </form> --}}
+                                         <form action="{{route('RemoveSection', $section->id)}}" method="POST">
+                                             @csrf
+                                             @method('DELETE')
+                                             <button class="btn btn-sm btn-outline-danger">Remove</button>
+                                        </form>
+                                    </div> 
+                                    
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

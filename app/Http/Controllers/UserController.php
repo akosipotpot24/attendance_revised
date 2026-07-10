@@ -16,6 +16,32 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     //
+        /**
+     * Run the migrations.
+     */
+
+    // note: 
+    //     *user_type
+    //         0 = not a user (NEW REGISTERED)
+    //         1 = user
+    //         2 = admin
+    //         3 = superadmin
+    //         4 = library user(scan)
+    //     *status
+    //         0 = pending
+    //         1 = approved
+    //         2 = declined  
+
+            public function makeadmin($id){
+                  if (auth()->user()->user_type != 2) {
+                        abort(403, 'Unauthorized action.');
+                    }
+
+                $user = User::findOrFail($id);
+                $user->user_type = 2;
+                $user->save();
+                return back()->with('success', $user->fullname . ' is now an admin.');
+            }
 
             public function resetPassword(Request $request)
             {
@@ -149,7 +175,7 @@ class UserController extends Controller
        $query =  User::where('status', '0');
        $approves = $query->get();
 
-       return view('/users/approvals', compact('approves'));
+       return view('.users.approvals', compact('approves'));
     }
 
     public function approveUser($id){
