@@ -44,6 +44,7 @@
                             <td class="text-muted">{{ $student->library_branch }}</td>
                             <td class="text-muted">{{ $student->section }}</td>
                             <td class="text-center">
+                                
                                 <a href="/crud/edit/{{ $student->id_number }}">
                                     <img src="/storage/avatars/{{ $student->avatar ?? 'default.png' }}"
                                          class="rounded-circle"
