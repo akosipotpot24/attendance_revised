@@ -18,13 +18,6 @@ Route::get('/project', function () {
     return view('crud.index');
  })->name('attendance');
 
-Route::get('/welcome', function () {
-    $teachers = Student::where('school_role','faculty')->count();
-    $students = Student::where('school_role','student')->count();
-    $workers = Student::where('school_role','non-teaching')->count();
-
-    return view('crud.welcome',compact('teachers','students','workers') );
-})->middleware('authenticate');
 
 
 
@@ -46,63 +39,95 @@ Route::get('/register-attendance', function () {
 });
 
 
-Route::get('/register-crud',[CrudController::class, 'newUser']);
 
-Route::get('/scan/{id_number}', [CrudController::class, 'scan']);
+
+
+
+
+Route::middleware(['auth', \App\Http\Middleware\PreventBackHistory::class])->group(function () {
+    
+
+    
+    Route::get('/welcome', function () {
+        $teachers = Student::where('school_role','faculty')->count();
+        $students = Student::where('school_role','student')->count();
+        $workers = Student::where('school_role','non-teaching')->count();
+
+        return view('crud.welcome',compact('teachers','students','workers') );
+    })->middleware('authenticate');
+
+    Route::get('/register-crud',[CrudController::class, 'newUser']);
+    Route::get('/scan/{id_number}', [CrudController::class, 'scan']);
+
+
+    //patrons
+    Route::get('/records',[CrudController::class, 'records']);
+    Route::post('/register',[CrudController::class, 'register']);
+    Route::get('/viewStudents',[CrudController::class, 'viewstudents'])->name('studyante')->middleware('authenticate');
+    Route::get('/crud/edit/{id_number}', [CrudController::class, 'edit'])->middleware('admin');
+    Route::put('/crud/update/{id_number}', [CrudController::class, 'update']);
+    Route::delete('/crud/delete/{id_number}', [CrudController::class, 'destroy']);
+
+
+
+
+    Route::get('/faculty', function () {
+        $teachers = Student::where('school_role','faculty')->get();
+        return view('crud.faculty', compact('teachers'));
+    })->name('faculty');
+
+    Route::get('/student', function () {
+        $students = Student::where('school_role','student')->get();
+        return view('crud.students', compact('students'));
+    })->name('student');
+    Route::get('/worker', function () {
+        $workers= Student::where('school_role','non-teaching')->get();
+        return view('crud.nonTeaching', compact('workers'));
+    })->name('worker');
+
+
+
+            // section
+        Route::get('/sections', [SectionController::class, 'viewSections'])->middleware('admin');
+        Route::get('/sections/create', [SectionController::class, 'createSection'])->middleware('admin');
+        Route::post('/sections', [SectionController::class, 'storeSection']);
+        Route::get('/sections/{id}/edit', [SectionController::class, 'editSection']);
+        Route::put('/sections/{id}', [SectionController::class, 'updateSection'])->name('UpdateSection');
+        Route::delete('/sections/{id}', [SectionController::class, 'destroySection'])->name('RemoveSection');
+
+
+        //user approvals
+        Route::get('/users', [UserController::class, 'viewUsers'])->middleware('admin');
+        Route::get('/users/approval', [UserController::class, 'viewAprrovals'])->middleware('admin');
+        Route::get('/users/edit/{id}',  [UserController::class, 'edit'])->middleware('admin');
+        Route::put('/users/update/{id}',  [UserController::class, 'update'])->middleware('admin');
+        Route::put('/user/approve/{id}', [UserController::class, 'approveUser']);
+        Route::put('/user/decline/{id}', [UserController::class, 'declineUser']);
+        Route::get('/library-visits', [CrudController::class, 'libraryVisits'])->middleware('admin');
+
+        //users
+        Route::get('/forgot-password', [UserController::class, 'showForm'])->name('password.request');
+        Route::post('/forgot-password', [UserController::class, 'sendResetLink'])->name('password.email');
+        Route::get('/reset-password/{token}', [UserController::class, 'showResetForm'])->name('password.reset');
+        Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.update');
+        Route::put('/makeAdmin/{id}', [UserController::class, 'makeadmin'])->name('makeAdmin');
+
+        
+        //statistics
+        Route::get('/statistics', function () {
+            return view('stats.index');
+        })->name('statistics')->middleware('admin');
+
+        Route::get('/Getstatistics',[StatisticController::class, 'GetResults'])->name('check_statistics');
+
+
+}); // your protected routes
 
 
 
 Route::post('/login',[CrudController::class, 'login']);
 Route::delete('/logout',[CrudController::class, 'logout']);
 Route::post('/userRegister',[CrudController::class, 'userRegister']);
-
-//patrons
-Route::get('/records',[CrudController::class, 'records']);
-Route::post('/register',[CrudController::class, 'register']);
-Route::get('/viewStudents',[CrudController::class, 'viewstudents'])->name('studyante')->middleware('authenticate');
-Route::get('/crud/edit/{id_number}', [CrudController::class, 'edit'])->middleware('admin');
-Route::put('/crud/update/{id_number}', [CrudController::class, 'update']);
-Route::delete('/crud/delete/{id_number}', [CrudController::class, 'destroy']);
-
-Route::get('/faculty', function () {
-    $teachers = Student::where('school_role','faculty')->get();
-    return view('crud.faculty', compact('teachers'));
-})->name('faculty');
-Route::get('/student', function () {
-    $students = Student::where('school_role','student')->get();
-    return view('crud.students', compact('students'));
-})->name('student');
-Route::get('/worker', function () {
-    $workers= Student::where('school_role','non-teaching')->get();
-    return view('crud.nonTeaching', compact('workers'));
-})->name('worker');
-
-
-
-// section
-Route::get('/sections', [SectionController::class, 'viewSections'])->middleware('admin');
-Route::get('/sections/create', [SectionController::class, 'createSection'])->middleware('admin');
-Route::post('/sections', [SectionController::class, 'storeSection']);
-Route::get('/sections/{id}/edit', [SectionController::class, 'editSection']);
-Route::put('/sections/{id}', [SectionController::class, 'updateSection'])->name('UpdateSection');
-Route::delete('/sections/{id}', [SectionController::class, 'destroySection'])->name('RemoveSection');
-
-
-//user approvals
-Route::get('/users', [UserController::class, 'viewUsers'])->middleware('admin');
-Route::get('/users/approval', [UserController::class, 'viewAprrovals'])->middleware('admin');
-Route::get('/users/edit/{id}',  [UserController::class, 'edit'])->middleware('admin');
-Route::put('/users/update/{id}',  [UserController::class, 'update'])->middleware('admin');
-Route::put('/user/approve/{id}', [UserController::class, 'approveUser']);
-Route::put('/user/decline/{id}', [UserController::class, 'declineUser']);
-Route::get('/library-visits', [CrudController::class, 'libraryVisits'])->middleware('admin');
-
-//users
-Route::get('/forgot-password', [UserController::class, 'showForm'])->name('password.request');
-Route::post('/forgot-password', [UserController::class, 'sendResetLink'])->name('password.email');
-Route::get('/reset-password/{token}', [UserController::class, 'showResetForm'])->name('password.reset');
-Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('password.update');
-Route::put('/makeAdmin/{id}', [UserController::class, 'makeadmin'])->name('makeAdmin');
 
 //reset password
 Route::get('/password_reset', function () {
@@ -113,13 +138,6 @@ Route::middleware('auth')->group(function () {
    Route::patch('/password/reset',[UserController::class, 'password_reset']);
 });
 
-
-//statistics
-Route::get('/statistics', function () {
-    return view('stats.index');
-})->name('statistics')->middleware('admin');
-
-Route::get('/Getstatistics',[StatisticController::class, 'GetResults'])->name('check_statistics');
 
 
 

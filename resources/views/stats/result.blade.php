@@ -75,7 +75,7 @@
                     <table id="summaryTable" class="table" style="width:100%;">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Id Number</th>
                                 <th>Date</th>
                                 <th>Total</th>
                             </tr>

@@ -134,14 +134,17 @@ class CrudController extends Controller
         return redirect('/crud/edit/' . $id)->with('success', 'Student updated successfully!');
     }
 
-     public function logout(){
+     public function logout(Request $request){
         event(new AuditTrails(
             auth()->user()->id,
             'User has attempted to log out with username: '.auth()->user()->username,
             'authentication: Logged out successfully',
             'User logged out'
         ));
+
         auth()->logout();
+         $request->session()->invalidate();
+         $request->session()->regenerateToken();
         return redirect('/project')->with('logout', 'You are Logged Out');
     }
 

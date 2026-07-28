@@ -17,8 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
          $middleware->alias([
         'authenticate' => \App\Http\Middleware\authenticate::class,
        'admin' => \App\Http\Middleware\admin::class,
-       'scanner' => \App\Http\Middleware\Scan::class,
+       'scanner' => \App\Http\Middleware\Scan::class,     
     ]);
+
+     $middleware->appendToGroup('web', \App\Http\Middleware\PreventBackHistory::class);
     })
     
 
