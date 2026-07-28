@@ -44,7 +44,7 @@ Route::get('/register-attendance', function () {
 
 
 
-Route::middleware(['auth', \App\Http\Middleware\PreventBackHistory::class])->group(function () {
+Route::middleware(['admin','auth', \App\Http\Middleware\PreventBackHistory::class])->group(function () {
     
 
     
